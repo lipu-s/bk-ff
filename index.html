@@ -1,1338 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="or">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOYAH ZONE - Custom Rooms & Esports Platform</title>
-    <!-- Tailwind CSS -->
+    <title>BK FF Esports - Free Fire Tournaments</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gaming: {
-                            dark: '#0a0e17',
-                            card: '#121826',
-                            border: '#1e293b',
-                            accent: '#00ff88',
-                            pink: '#ff0055',
-                            gold: '#ffaa00',
-                            purple: '#8b5cf6'
-                        }
-                    },
-                    fontFamily: {
-                        orbitron: ['Orbitron', 'sans-serif'],
-                        rajdhani: ['Rajdhani', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #0a0e17;
-            color: #e2e8f0;
-            font-family: 'Rajdhani', sans-serif;
-        }
-        .heading-font {
-            font-family: 'Orbitron', sans-serif;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0e17;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00ff88;
-        }
-        .glass-panel {
-            background: rgba(18, 24, 38, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glow-accent {
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-        }
-        .glow-pink {
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.25);
-        }
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glow-card { border: 1px solid #30363d; background: #161b22; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
+        .accent-bg { background: linear-gradient(135deg, #238636 0%, #2ea043 100%); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-gaming-accent selection:text-black">
+<body class="min-h-screen flex flex-col justify-between">
 
-    <!-- NAVIGATION HEADER -->
-    <header class="sticky top-0 z-40 bg-gaming-dark/95 border-b border-gaming-border backdrop-blur-md px-4 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            
-            <!-- Logo -->
-            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('tournaments')">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-gaming-pink via-gaming-purple to-gaming-accent p-0.5 flex items-center justify-center shadow-lg">
-                    <div class="w-full h-full bg-gaming-dark rounded-[10px] flex items-center justify-center">
-                        <i class="fa-solid fa-fire-flame-curved text-gaming-pink text-xl"></i>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="heading-font font-black text-xl tracking-wider text-white flex items-center gap-1">
-                        BOOYAH<span class="text-gaming-accent">ZONE</span>
-                    </h1>
-                    <p class="text-[10px] text-gray-400 -mt-1 tracking-widest uppercase">Custom Rooms & Tournaments</p>
-                </div>
-            </div>
-
-            <!-- Main Nav (Desktop) -->
-            <nav class="hidden lg:flex items-center gap-1 bg-gaming-card/90 p-1.5 rounded-xl border border-gaming-border text-xs font-semibold">
-                <button onclick="switchTab('tournaments')" id="nav-tournaments" class="px-3.5 py-1.5 rounded-lg text-gaming-accent bg-gaming-border transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-gamepad text-sm"></i> Matches
-                </button>
-                <button onclick="switchTab('create')" id="nav-create" class="px-3.5 py-1.5 rounded-lg text-gaming-pink hover:text-white transition-all flex items-center gap-1.5 font-bold">
-                    <i class="fa-solid fa-plus-circle text-sm"></i> Host Custom Match
-                </button>
-                <button onclick="switchTab('my-matches')" id="nav-my-matches" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-user-check text-sm"></i> Joined Matches
-                </button>
-                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-trophy text-sm"></i> Standings
-                </button>
-                <button onclick="switchTab('rules')" id="nav-rules" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-halved text-sm"></i> Rules
-                </button>
-                <button onclick="switchTab('admin')" id="nav-admin" class="px-3.5 py-1.5 rounded-lg text-gaming-gold hover:text-yellow-300 transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-sliders text-sm"></i> My Hosted Rooms
-                </button>
-            </nav>
-
-            <!-- User Balance & Profile -->
-            <div class="flex items-center gap-2.5">
-                <button onclick="openWalletModal()" class="flex items-center gap-2 bg-gaming-card border border-gaming-border hover:border-gaming-gold/50 px-3 py-1.5 rounded-xl transition-all">
-                    <i class="fa-solid fa-coins text-gaming-gold text-base"></i>
-                    <div class="text-left">
-                        <span class="block text-[9px] text-gray-400 leading-none">Coins</span>
-                        <span id="user-wallet-balance" class="heading-font font-bold text-xs text-gaming-gold leading-none">🪙 500</span>
-                    </div>
-                </button>
-
-                <button onclick="openProfileModal()" class="w-9 h-9 rounded-xl bg-gaming-card border border-gaming-border flex items-center justify-center hover:border-gaming-accent transition-all text-gray-300">
-                    <i class="fa-solid fa-user-ninja text-base"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Nav Bar -->
-        <div class="lg:hidden flex items-center justify-between gap-1 mt-2.5 pt-2 border-t border-gaming-border/60 text-[11px] font-bold overflow-x-auto whitespace-nowrap">
-            <button onclick="switchTab('tournaments')" id="mnav-tournaments" class="px-3 py-1 rounded-lg text-gaming-accent bg-gaming-border">Matches</button>
-            <button onclick="switchTab('create')" id="mnav-create" class="px-3 py-1 rounded-lg text-gaming-pink">➕ Host Custom</button>
-            <button onclick="switchTab('my-matches')" id="mnav-my-matches" class="px-3 py-1 rounded-lg text-gray-400">Joined</button>
-            <button onclick="switchTab('leaderboard')" id="mnav-leaderboard" class="px-3 py-1 rounded-lg text-gray-400">Standings</button>
-            <button onclick="switchTab('admin')" id="mnav-admin" class="px-3 py-1 rounded-lg text-gaming-gold">My Rooms</button>
+    <!-- Header -->
+    <header class="bg-gray-900 border-b border-gray-800 p-4 sticky top-0 z-40 shadow-lg">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-green-400 tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-gamepad"></i> BK FF ESPORTS
+            </h1>
+            <button onclick="openAdminModal()" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 py-1 px-3 rounded border border-gray-700">
+                <i class="fa-solid fa-lock text-yellow-400 mr-1"></i> Admin
+            </button>
         </div>
     </header>
 
-    <!-- ANNOUNCEMENT BANNER -->
-    <div class="bg-gradient-to-r from-gaming-card via-gaming-border to-gaming-card border-b border-gaming-border py-2 px-4 text-xs">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div class="flex items-center gap-2 text-gaming-accent">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gaming-accent opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-gaming-accent"></span>
-                </span>
-                <span class="uppercase tracking-wider font-bold text-[11px]">Free Fire Custom Hub:</span>
-            </div>
-            <p class="text-gray-300 text-center sm:text-left">
-                🎮 Host custom rooms with friends or compete in official tournaments! Auto Room-ID release & FFWS scoring.
-            </p>
-            <button onclick="switchTab('create')" class="bg-gaming-pink/20 hover:bg-gaming-pink border border-gaming-pink/50 text-gaming-pink hover:text-white px-2.5 py-0.5 rounded-lg text-[10px] font-bold uppercase transition-all shrink-0">
-                Host Room Now
-            </button>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto p-4 w-full flex-grow">
+        <div class="mb-6 text-center">
+            <h2 class="text-2xl font-extrabold text-white mb-1">Live Tournaments</h2>
+            <p class="text-sm text-gray-400">Join daily Free Fire rooms & win rewards!</p>
         </div>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
-
-        <!-- TAB 1: ALL MATCHES & CUSTOM ROOMS -->
-        <section id="tab-tournaments" class="space-y-6">
-            <!-- Filter Options & Search Bar -->
-            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-gaming-card p-4 rounded-2xl border border-gaming-border">
-                <!-- Source Tabs (Official vs Custom Community) -->
-                <div class="flex items-center gap-1.5 bg-gaming-dark p-1 rounded-xl border border-gaming-border text-xs font-bold shrink-0">
-                    <button onclick="setSourceFilter('ALL')" id="src-filter-ALL" class="px-3.5 py-1.5 rounded-lg bg-gaming-accent text-black transition-all">All Matches</button>
-                    <button onclick="setSourceFilter('OFFICIAL')" id="src-filter-OFFICIAL" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all">🏆 Official Esports</button>
-                    <button onclick="setSourceFilter('COMMUNITY')" id="src-filter-COMMUNITY" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all">👥 Friend Custom Rooms</button>
-                </div>
-
-                <!-- Mode Filters -->
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 text-xs font-semibold">
-                    <button onclick="setModeFilter('ALL')" class="mode-btn active-mode px-3 py-1.5 rounded-lg bg-gaming-border text-white whitespace-nowrap" data-mode="ALL">All Modes</button>
-                    <button onclick="setModeFilter('SOLO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="SOLO">👤 Solo</button>
-                    <button onclick="setModeFilter('DUO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="DUO">👥 Duo</button>
-                    <button onclick="setModeFilter('SQUAD')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="SQUAD">👨‍👦‍👦 Squad</button>
-                    <button onclick="setModeFilter('CLASH_SQUAD')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="CLASH_SQUAD">⚔️ Clash Squad (4v4)</button>
-                </div>
-
-                <!-- Quick Join Code Search -->
-                <div class="flex items-center gap-2 min-w-[220px]">
-                    <div class="relative w-full">
-                        <i class="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
-                        <input type="text" id="match-code-search" placeholder="Enter Room Code (e.g. FF-9081)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-gaming-accent uppercase">
-                    </div>
-                    <button onclick="searchByMatchCode()" class="bg-gaming-accent text-black font-bold px-3 py-1.5 rounded-xl text-xs shrink-0 hover:opacity-90">
-                        Find
-                    </button>
-                </div>
+        <!-- Matches Container (Synced from Firebase) -->
+        <div id="matches-list" class="grid gap-4 md:grid-cols-2">
+            <div class="glow-card p-6 rounded-xl text-center text-gray-400 animate-pulse">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-green-400"></i>
+                <p>Loading active matches...</p>
             </div>
-
-            <!-- Matches Grid -->
-            <div id="tournaments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Dynamically populated matches -->
-            </div>
-        </section>
-
-        <!-- TAB 2: CREATE / HOST CUSTOM ROOM -->
-        <section id="tab-create" class="hidden space-y-6">
-            <div class="max-w-3xl mx-auto bg-gaming-card p-6 md:p-8 rounded-2xl border border-gaming-border space-y-6 glow-pink">
-                <div class="border-b border-gaming-border pb-4">
-                    <span class="bg-gaming-pink/20 text-gaming-pink text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Friend & Community Host</span>
-                    <h2 class="heading-font text-2xl font-black text-white mt-2 flex items-center gap-2">
-                        <i class="fa-solid fa-[#ff0055] fa-gamepad"></i> Host Free Fire Custom Room
-                    </h2>
-                    <p class="text-gray-400 text-xs mt-1">Create your own room for friends, set your entry/prizes or play for fun, and share the join code!</p>
-                </div>
-
-                <form id="custom-room-form" onsubmit="handleHostCustomRoom(event)" class="space-y-4 text-xs font-semibold">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2">
-                            <label class="block text-gray-300 mb-1">Custom Room / Tournament Name <span class="text-gaming-pink">*</span></label>
-                            <input type="text" id="host-title" required placeholder="e.g. Kalinga Warriors Custom #12" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Game Mode <span class="text-gaming-pink">*</span></label>
-                            <select id="host-mode" onchange="adjustSlotLimits()" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                                <option value="SQUAD">Squad (Full Map 48 Players)</option>
-                                <option value="DUO">Duo (Full Map 24 Teams)</option>
-                                <option value="SOLO">Solo (48 Players)</option>
-                                <option value="CLASH_SQUAD">Clash Squad 4v4 (8 Players)</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Map <span class="text-gaming-pink">*</span></label>
-                            <select id="host-map" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                                <option value="Bermuda">Bermuda</option>
-                                <option value="Purgatory">Purgatory</option>
-                                <option value="Kalahari">Kalahari</option>
-                                <option value="Alpine">Alpine</option>
-                                <option value="Nexterra">Nexterra</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Entry Fee (Coins / Free) <span class="text-gaming-pink">*</span></label>
-                            <input type="number" id="host-fee" required min="0" value="0" placeholder="0 for Free" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Total Prize Pool (Coins / Cash text)</label>
-                            <input type="text" id="host-prize" placeholder="e.g. 500 Coins / ₹500" value="Free Match" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Total Capacity (Players / Squads)</label>
-                            <input type="number" id="host-slots" required min="2" max="48" value="48" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Scheduled Date & Time <span class="text-gaming-pink">*</span></label>
-                            <input type="datetime-local" id="host-time" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">In-Game Custom Room ID (Optional Now)</label>
-                            <input type="text" id="host-room-id" placeholder="e.g. 8829104 (Can fill later)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Custom Room Password</label>
-                            <input type="text" id="host-room-pass" placeholder="e.g. 1234" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <label class="block text-gray-300 mb-1">Custom Rules / Instructions for Players</label>
-                            <textarea id="host-notes" rows="2" placeholder="e.g. No Gun Skins, Grenades Banned, Limited Ammo Yes/No..." class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-gaming-pink"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="pt-4 border-t border-gaming-border flex gap-3">
-                        <button type="submit" class="w-full bg-gradient-to-r from-gaming-pink to-rose-600 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all heading-font text-sm flex items-center justify-center gap-2 shadow-lg">
-                            🚀 Publish Custom Match & Get Link
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- TAB 3: MY JOINED MATCHES -->
-        <section id="tab-my-matches" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-4">
-                <div class="flex items-center justify-between border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-user-check text-gaming-accent"></i> My Registered Matches
-                        </h2>
-                        <p class="text-xs text-gray-400">View room details, countdown, and passwords for rooms you have joined.</p>
-                    </div>
-                    <span id="joined-count-badge" class="bg-gaming-accent/20 text-gaming-accent text-xs font-bold px-3 py-1 rounded-full">0 Matches</span>
-                </div>
-
-                <div id="joined-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <!-- Dynamic joined matches -->
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4: LEADERBOARD & POINTS CALCULATOR -->
-        <section id="tab-leaderboard" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-2xl font-black text-white flex items-center gap-2">
-                            <i class="fa-solid fa-trophy text-gaming-gold"></i> Esports Standings & Calculator
-                        </h2>
-                        <p class="text-gray-400 text-xs">Official FFWS Points standard (Booyah = 12 pts, 2nd = 9 pts, 3rd = 8 pts, Kill = 1 pt)</p>
-                    </div>
-
-                    <!-- Calculator Trigger Button -->
-                    <button onclick="togglePointsCalculator()" class="bg-gaming-dark border border-gaming-gold text-gaming-gold hover:bg-gaming-gold hover:text-black font-bold px-4 py-2 rounded-xl text-xs transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-calculator"></i> Custom Score Calculator Tool
-                    </button>
-                </div>
-
-                <!-- Interactive FFWS Score Calculator (Collapsible) -->
-                <div id="points-calculator-box" class="hidden bg-gaming-dark p-5 rounded-2xl border border-gaming-gold/40 space-y-4">
-                    <h3 class="heading-font text-sm font-bold text-gaming-gold flex items-center gap-2">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Match Points Quick Tool
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Placement Rank</label>
-                            <select id="calc-rank" onchange="calculateScore()" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
-                                <option value="12">Rank #1 (BOOYAH 👑)</option>
-                                <option value="9">Rank #2</option>
-                                <option value="8">Rank #3</option>
-                                <option value="7">Rank #4</option>
-                                <option value="6">Rank #5</option>
-                                <option value="5">Rank #6</option>
-                                <option value="4">Rank #7</option>
-                                <option value="3">Rank #8</option>
-                                <option value="2">Rank #9</option>
-                                <option value="1">Rank #10</option>
-                                <option value="0">Rank #11 - #12</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Total Squad Kills</label>
-                            <input type="number" id="calc-kills" min="0" value="5" oninput="calculateScore()" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
-                        </div>
-                        <div class="bg-gaming-card p-3 rounded-lg border border-gaming-border text-center flex flex-col justify-center">
-                            <span class="text-[10px] text-gray-400 uppercase">Calculated Total</span>
-                            <strong id="calc-result" class="heading-font text-lg text-gaming-accent">17 Points</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Leaderboard Table -->
-                <div class="overflow-x-auto rounded-xl border border-gaming-border">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gaming-dark text-gray-400 text-xs uppercase heading-font tracking-wider border-b border-gaming-border">
-                                <th class="p-3.5 text-center">Rank</th>
-                                <th class="p-3.5">Team / Player Name</th>
-                                <th class="p-3.5 text-center">Matches</th>
-                                <th class="p-3.5 text-center">Booyahs 👑</th>
-                                <th class="p-3.5 text-center">Kills 🎯</th>
-                                <th class="p-3.5 text-center">Placement Pts</th>
-                                <th class="p-3.5 text-center text-gaming-accent">Total Pts</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboard-body" class="divide-y divide-gaming-border text-xs">
-                            <!-- Dynamic Leaderboard Rows -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 5: RULES & COMMUNITY GUIDE -->
-        <section id="tab-rules" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div>
-                    <h2 class="heading-font text-2xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-gaming-accent"></i> Tournament Fair Play & Rules
-                    </h2>
-                    <p class="text-gray-400 text-xs mt-1">Rules applying to both Official Tournaments and Custom Rooms hosted on Booyah Zone.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-pink flex items-center gap-2">
-                            <i class="fa-solid fa-ban"></i> Cheating & Emulators
-                        </h3>
-                        <p class="text-gray-300">Headshot scripts, aimbots, speed mods, or panel apps result in permanent ban without coin refunds. PC Emulators are blocked unless match mode explicitly states 'Emulator Allowed'.</p>
-                    </div>
-
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-accent flex items-center gap-2">
-                            <i class="fa-solid fa-key"></i> Room Access Policy
-                        </h3>
-                        <p class="text-gray-300">Room ID & Password unlock 10-15 minutes prior to start time. Do not leak credentials to outside players. Unregistered players joining the room will be kicked by room host.</p>
-                    </div>
-
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-gold flex items-center gap-2">
-                            <i class="fa-solid fa-users-gear"></i> Host Responsibilities
-                        </h3>
-                        <p class="text-gray-300">Custom match hosts are required to update Room credentials on time and record end-game scoreboard screenshots to resolve any kill/placement dispute among players.</p>
-                    </div>
-
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-purple flex items-center gap-2">
-                            <i class="fa-solid fa-headset"></i> Support & Discord
-                        </h3>
-                        <p class="text-gray-300">Need host permissions or facing registration payment issues? Contact our moderation team on WhatsApp or Discord 24/7.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 6: ADMIN / HOST CONTROL PANEL -->
-        <section id="tab-admin" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div class="flex items-center justify-between border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-gaming-gold"></i> My Hosted Custom Rooms
-                        </h2>
-                        <p class="text-xs text-gray-400">Manage custom rooms created by you: Set Room ID/Pass, update statuses, or publish scores.</p>
-                    </div>
-                    <button onclick="switchTab('create')" class="bg-gaming-pink text-white font-bold px-3 py-1.5 rounded-xl text-xs hover:opacity-90">
-                        + Host New Room
-                    </button>
-                </div>
-
-                <div id="admin-hosted-rooms-list" class="space-y-4">
-                    <!-- Dynamic List of User's Hosted Rooms -->
-                </div>
-            </div>
-        </section>
-
+        </div>
     </main>
 
-    <!-- MODAL 1: REGISTRATION / JOIN MATCH -->
-    <div id="modal-join" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-lg w-full p-6 space-y-5 relative max-h-[90vh] overflow-y-auto">
-            <button onclick="closeModal('modal-join')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <!-- Admin Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
-            <div>
-                <div class="flex items-center gap-2">
-                    <span id="modal-match-source-badge" class="bg-gaming-pink/20 text-gaming-pink text-[10px] font-bold px-2 py-0.5 rounded uppercase">Community</span>
-                    <span id="modal-match-mode-badge" class="bg-gaming-accent/20 text-gaming-accent text-[10px] font-bold px-2 py-0.5 rounded uppercase">SQUAD</span>
-                </div>
-                <h3 id="modal-match-title" class="heading-font text-xl font-bold text-white mt-1">Match Title</h3>
-                <p id="modal-match-map" class="text-xs text-gray-400">Map: Bermuda | Scheduled</p>
+            <!-- Login View -->
+            <div id="admin-login-view">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-green-400"></i> Admin Authentication
+                </h3>
+                <input type="password" id="admin-pin" placeholder="Enter Secret PIN (Default: 1234)" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 text-white mb-4 focus:outline-none focus:border-green-500">
+                <button onclick="verifyAdmin()" class="w-full accent-bg text-white font-bold py-3 rounded-lg hover:opacity-90 transition">Login to Panel</button>
             </div>
 
-            <!-- Countdown Timer & Code Box -->
-            <div class="bg-gaming-dark p-3 rounded-xl border border-gaming-border flex items-center justify-between text-xs">
-                <span class="text-gray-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-clock text-gaming-gold"></i> Match Countdown:
-                </span>
-                <span id="modal-countdown" class="heading-font font-bold text-gaming-gold">00m 00s</span>
-            </div>
-
-            <!-- Unlocked Room ID & Password Box -->
-            <div id="modal-room-details-box" class="hidden bg-gradient-to-r from-gaming-dark to-gaming-card p-4 rounded-xl border border-gaming-accent/40 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-gaming-accent uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-lock-open"></i> Room Credentials Unlocked
-                    </span>
-                    <span class="text-[10px] text-gray-400">DO NOT SHARE</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                    <div class="bg-gaming-dark p-2.5 rounded-lg border border-gaming-border">
-                        <span class="block text-[10px] text-gray-400">ROOM ID</span>
-                        <div class="flex items-center justify-between mt-0.5">
-                            <strong id="modal-room-id" class="heading-font text-gaming-gold text-sm">--</strong>
-                            <button onclick="copyText('modal-room-id')" class="text-gray-400 hover:text-gaming-accent"><i class="fa-solid fa-copy"></i></button>
-                        </div>
+            <!-- Control View -->
+            <div id="admin-control-view" class="hidden">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between">
+                    <span><i class="fa-solid fa-sliders text-green-400"></i> Match Manager</span>
+                    <button onclick="logoutAdmin()" class="text-xs text-red-400 underline">Logout</button>
+                </h3>
+                <form id="match-form" onsubmit="saveMatch(event)" class="space-y-3">
+                    <input type="text" id="m-title" placeholder="Match Title (e.g. Solo Bermuda #10)" required class="w-full bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="m-time" placeholder="Time (e.g. 8:00 PM)" required class="bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
+                        <input type="text" id="m-fee" placeholder="Entry Fee (e.g. ₹20)" required class="bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
                     </div>
-                    <div class="bg-gaming-dark p-2.5 rounded-lg border border-gaming-border">
-                        <span class="block text-[10px] text-gray-400">PASSWORD</span>
-                        <div class="flex items-center justify-between mt-0.5">
-                            <strong id="modal-room-pass" class="heading-font text-gaming-gold text-sm">--</strong>
-                            <button onclick="copyText('modal-room-pass')" class="text-gray-400 hover:text-gaming-accent"><i class="fa-solid fa-copy"></i></button>
-                        </div>
+                    <input type="text" id="m-prize" placeholder="Prize Pool (e.g. ₹200)" required class="w-full bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="m-roomid" placeholder="Room ID" class="bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
+                        <input type="text" id="m-pass" placeholder="Room Pass" class="bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white">
                     </div>
-                </div>
-            </div>
-
-            <!-- Share Match Code Box -->
-            <div class="bg-gaming-dark p-3 rounded-xl border border-gaming-border flex items-center justify-between text-xs">
-                <span class="text-gray-400">Invite Code: <strong id="modal-share-code" class="text-gaming-pink heading-font">FF-0000</strong></span>
-                <button onclick="copyShareLink()" class="bg-gaming-border hover:bg-gaming-pink text-white px-3 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1">
-                    <i class="fa-solid fa-share-nodes"></i> Share Room
-                </button>
-            </div>
-
-            <!-- Registration Form -->
-            <form id="join-form" onsubmit="handleConfirmJoin(event)" class="space-y-3 text-xs">
-                <h4 class="text-xs uppercase font-bold text-gray-400 tracking-wider border-b border-gaming-border pb-1">Player Registration Input</h4>
-                
-                <div>
-                    <label class="block text-gray-400 mb-1">Leader Free Fire UID (Numeric)</label>
-                    <input type="text" id="player-uid" required placeholder="e.g. 1829402910" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Leader In-Game Name (IGN)</label>
-                    <input type="text" id="player-ign" required placeholder="e.g. OP_SHELBY⚡" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                </div>
-
-                <!-- Squad Teammates Dynamic Input -->
-                <div id="team-members-container" class="hidden space-y-2 pt-2 border-t border-gaming-border">
-                    <label class="block font-bold text-gaming-accent">Team / Teammates Information</label>
-                    <input type="text" id="team-name-input" placeholder="Team Name (e.g. Kalinga Kings)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                    <input type="text" id="player-uid-2" placeholder="Player 2 (UID & IGN)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                    <input type="text" id="player-uid-3" placeholder="Player 3 (UID & IGN)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                    <input type="text" id="player-uid-4" placeholder="Player 4 (UID & IGN)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gaming-accent">
-                </div>
-
-                <!-- Entry Fee & Action -->
-                <div class="flex items-center justify-between pt-4 border-t border-gaming-border">
-                    <div>
-                        <span class="block text-[11px] text-gray-400">Total Entry Fee</span>
-                        <strong id="modal-entry-fee" class="heading-font text-base text-gaming-gold">🪙 0 (FREE)</strong>
-                    </div>
-                    <button type="submit" id="modal-submit-btn" class="bg-gradient-to-r from-gaming-accent to-emerald-500 text-black font-bold px-6 py-2.5 rounded-xl hover:opacity-90 transition-all heading-font">
-                        Confirm Join
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL 2: USER WALLET & DEPOSIT / WITHDRAW -->
-    <div id="modal-wallet" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-5 relative">
-            <button onclick="closeModal('modal-wallet')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <div class="text-center">
-                <div class="w-12 h-12 rounded-full bg-gaming-gold/20 border border-gaming-gold flex items-center justify-center mx-auto mb-2">
-                    <i class="fa-solid fa-coins text-2xl text-gaming-gold"></i>
-                </div>
-                <h3 class="heading-font text-xl font-bold text-white">Booyah Zone Wallet</h3>
-                <p class="text-xs text-gray-400">Manage coins for custom match fees & winnings</p>
-            </div>
-
-            <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border text-center">
-                <span class="text-xs text-gray-400 uppercase tracking-wider">Available Balance</span>
-                <div class="heading-font text-3xl font-black text-gaming-gold" id="wallet-modal-balance">🪙 500</div>
-            </div>
-
-            <!-- Quick Add Coins -->
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="handleAddCoinsDemo()" class="bg-gaming-accent/20 border border-gaming-accent text-gaming-accent font-bold py-2.5 rounded-xl hover:bg-gaming-accent hover:text-black transition-all text-xs flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-plus-circle"></i> +200 Demo Coins
-                </button>
-                <button onclick="toggleWithdrawForm()" class="bg-gaming-border border border-gray-600 text-white font-bold py-2.5 rounded-xl hover:border-gaming-gold transition-all text-xs flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Cashout
-                </button>
-            </div>
-
-            <!-- Withdraw Form -->
-            <form id="withdraw-form" onsubmit="handleWithdraw(event)" class="hidden space-y-3 pt-3 border-t border-gaming-border text-xs">
-                <h4 class="font-bold text-gray-300">UPI Cashout Request</h4>
-                <input type="number" id="withdraw-amount" min="100" placeholder="Coins (Min 100)" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                <input type="text" id="withdraw-upi" placeholder="UPI ID (e.g. 9876543210@upi)" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                <button type="submit" class="w-full bg-gaming-gold text-black font-bold py-2 rounded-xl heading-font">
-                    Submit Request
-                </button>
-            </form>
-
-            <!-- Wallet History -->
-            <div class="space-y-2 pt-2 border-t border-gaming-border">
-                <h4 class="text-xs font-bold text-gray-400 uppercase">Recent Transactions</h4>
-                <div id="wallet-history-list" class="space-y-2 max-h-36 overflow-y-auto text-xs">
-                    <!-- Dynamic history -->
-                </div>
+                    <button type="submit" class="w-full accent-bg text-white font-bold py-2.5 rounded text-sm hover:opacity-90 transition">Publish / Update Match</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 3: PROFILE MODAL -->
-    <div id="modal-profile" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-5 relative">
-            <button onclick="closeModal('modal-profile')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <div class="flex items-center gap-4 border-b border-gaming-border pb-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-gaming-pink to-gaming-accent p-0.5">
-                    <div class="w-full h-full bg-gaming-dark rounded-[10px] flex items-center justify-center">
-                        <i class="fa-solid fa-user-ninja text-xl text-gaming-accent"></i>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="heading-font text-base font-bold text-white" id="profile-ign-display">PRO_GAMER_99</h3>
-                    <p class="text-xs text-gray-400">UID: <span id="profile-uid-display">8293041920</span></p>
-                </div>
-            </div>
-
-            <div class="space-y-3 text-xs">
-                <h4 class="font-bold text-gray-400 uppercase">Edit In-Game Information</h4>
-                <div>
-                    <label class="block text-gray-400 mb-1">In-Game Name (IGN)</label>
-                    <input type="text" id="edit-profile-ign" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Free Fire UID</label>
-                    <input type="text" id="edit-profile-uid" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-                <button onclick="saveProfileInfo()" class="w-full bg-gaming-accent text-black font-bold py-2 rounded-xl heading-font">
-                    Save Profile
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gaming-card border border-gaming-accent text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
-        <i class="fa-solid fa-circle-check text-gaming-accent text-base" id="toast-icon"></i>
-        <span id="toast-message">Notification message</span>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="bg-gaming-dark border-t border-gaming-border mt-12 py-6 px-4 text-center text-xs text-gray-500 space-y-2">
-        <div class="flex justify-center items-center gap-2 text-white heading-font font-bold">
-            <i class="fa-solid fa-fire-flame-curved text-gaming-pink"></i> BOOYAH ZONE CUSTOM PLATFORM
-        </div>
-        <p>Host Custom Rooms with Friends • Compete in Esports Leagues</p>
-        <p class="text-[10px] text-gray-600">Free Fire is a trademark of Garena. This site is a fan tournament hosting app.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 p-4 text-center text-xs text-gray-500">
+        &copy; 2026 BK FF Esports. All rights reserved.
     </footer>
 
-    <!-- JAVASCRIPT APPLICATION CODE -->
+    <!-- Firebase SDK Scripts (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
     <script>
-        // --- INITIAL DEFAULT DATA ---
-        const DEFAULT_MATCHES = [
-            {
-                id: "match-101",
-                code: "FF-1010",
-                title: "Booyah Bermuda Championship #01",
-                map: "Bermuda",
-                mode: "SQUAD",
-                source: "OFFICIAL", // OFFICIAL or COMMUNITY
-                time: new Date(Date.now() + 1000 * 60 * 18).toISOString(), // 18 mins from now
-                entryFee: 0,
-                prizePool: "1,000 Coins",
-                totalSlots: 48,
-                joinedSlots: 36,
-                roomId: "8829012",
-                roomPass: "7788",
-                status: "UPCOMING",
-                hostName: "Booyah Admin",
-                notes: "Standard FFWS rules. Limited Ammo YES, Gun Skins YES."
-            },
-            {
-                id: "match-102",
-                code: "FF-2020",
-                title: "Friend Clash Squad 4v4 Showdown",
-                map: "Bermuda",
-                mode: "CLASH_SQUAD",
-                source: "COMMUNITY",
-                time: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
-                entryFee: 10,
-                prizePool: "200 Coins",
-                totalSlots: 8,
-                joinedSlots: 4,
-                roomId: "",
-                roomPass: "",
-                status: "UPCOMING",
-                hostName: "RASTAR_OP",
-                notes: "No Character Skill, No Grenades, 500 HP."
-            },
-            {
-                id: "match-103",
-                code: "FF-3030",
-                title: "Kalahari Duo Battle League",
-                map: "Kalahari",
-                mode: "DUO",
-                source: "COMMUNITY",
-                time: new Date(Date.now() + 1000 * 60 * 150).toISOString(),
-                entryFee: 20,
-                prizePool: "500 Coins",
-                totalSlots: 24,
-                joinedSlots: 12,
-                roomId: "",
-                roomPass: "",
-                status: "UPCOMING",
-                hostName: "PRO_GAMER_99",
-                notes: "Custom Duo tournament hosted for community."
-            }
-        ];
-
-        const DEFAULT_LEADERBOARD = [
-            { rank: 1, team: "Total Gaming Squad", matches: 10, booyahs: 4, kills: 88, placementPts: 80, totalPts: 168 },
-            { rank: 2, team: "Odisha Warriors", matches: 10, booyahs: 3, kills: 72, placementPts: 65, totalPts: 137 },
-            { rank: 3, team: "Kalinga Esports", matches: 9, booyahs: 2, kills: 58, placementPts: 50, totalPts: 108 },
-            { rank: 4, team: "PRO_GAMER_99 (You)", matches: 8, booyahs: 2, kills: 42, placementPts: 45, totalPts: 87 }
-        ];
-
-        // --- STATE MANAGEMENT & LOCAL STORAGE ---
-        let appState = {
-            user: JSON.parse(localStorage.getItem('bz_user')) || {
-                ign: 'PRO_GAMER_99',
-                uid: '8293041920',
-                wallet: 500,
-                joinedMatchIds: ["match-101"]
-            },
-            matches: JSON.parse(localStorage.getItem('bz_matches')) || DEFAULT_MATCHES,
-            leaderboard: JSON.parse(localStorage.getItem('bz_leaderboard')) || DEFAULT_LEADERBOARD,
-            walletHistory: JSON.parse(localStorage.getItem('bz_wallet_history')) || [
-                { id: 1, title: "Welcome Bonus", amount: 500, date: "Today", type: "credit" }
-            ],
-            selectedMatchId: null,
-            sourceFilter: 'ALL',
-            modeFilter: 'ALL'
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZZpUFjvLgpR8Bx41zRTOD05hPt5lG2bE",
+            authDomain: "bk-fft.firebaseapp.com",
+            databaseURL: "https://bk-fft-default-rtdb.firebaseio.com",
+            projectId: "bk-fft",
+            storageBucket: "bk-fft.firebasestorage.app",
+            messagingSenderId: "670932523757",
+            appId: "1:670932523757:web:26e918428a106798e20ae4"
         };
 
-        // --- SAVE TO LOCAL STORAGE ---
-        function persistState() {
-            localStorage.setItem('bz_user', JSON.stringify(appState.user));
-            localStorage.setItem('bz_matches', JSON.stringify(appState.matches));
-            localStorage.setItem('bz_leaderboard', JSON.stringify(appState.leaderboard));
-            localStorage.setItem('bz_wallet_history', JSON.stringify(appState.walletHistory));
-        }
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
 
-        // --- INIT APP ---
-        window.addEventListener('DOMContentLoaded', () => {
-            renderMatches();
-            renderJoinedMatches();
-            renderAdminRooms();
-            renderLeaderboard();
-            renderWalletHistory();
-            updateUserUI();
-            startTimerLoop();
-            checkUrlForSharedMatch();
+        // Listen for Realtime Match Updates
+        db.ref('matches').on('value', (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('matches-list');
+            container.innerHTML = '';
+
+            if(!data) {
+                container.innerHTML = `<div class="col-span-full glow-card p-6 rounded-xl text-center text-gray-400">No active matches found. Check back soon!</div>`;
+                return;
+            }
+
+            Object.keys(data).forEach(key => {
+                const match = data[key];
+                const card = `
+                    <div class="glow-card p-5 rounded-xl border border-gray-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-bold text-white text-lg">${match.title}</h3>
+                                <span class="text-xs bg-green-900/50 text-green-400 border border-green-700/50 px-2.5 py-0.5 rounded-full">ACTIVE</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-xs text-gray-300 mb-4 bg-gray-900/60 p-3 rounded-lg border border-gray-800/80">
+                                <div><i class="fa-regular fa-clock text-green-400 mr-1"></i> ${match.time}</div>
+                                <div><i class="fa-solid fa-ticket text-yellow-400 mr-1"></i> Fee: ${match.fee}</div>
+                                <div><i class="fa-solid fa-trophy text-amber-400 mr-1"></i> Prize: ${match.prize}</div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-900/80 p-3 rounded-lg border border-gray-800 flex justify-between items-center text-xs">
+                            <div>
+                                <span class="text-gray-400 block">Room Details:</span>
+                                <span class="text-white font-mono">ID: ${match.roomid || 'Will update soon'}</span> | 
+                                <span class="text-white font-mono">Pass: ${match.pass || '***'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
         });
 
-        // --- CHECK SHARED LINK IN URL ---
-        function checkUrlForSharedMatch() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const matchCode = urlParams.get('room');
-            if (matchCode) {
-                document.getElementById('match-code-search').value = matchCode;
-                searchByMatchCode();
+        // Admin Auth logic
+        function openAdminModal() { document.getElementById('admin-modal').classList.remove('hidden'); }
+        function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
+        
+        function verifyAdmin() {
+            const pin = document.getElementById('admin-pin').value;
+            if(pin === '1234') { // Secret PIN
+                document.getElementById('admin-login-view').classList.add('hidden');
+                document.getElementById('admin-control-view').classList.remove('hidden');
+            } else {
+                alert('Wrong PIN!');
             }
         }
 
-        // --- NAVIGATION LOGIC ---
-        function switchTab(tabName) {
-            const tabs = ['tournaments', 'create', 'my-matches', 'leaderboard', 'rules', 'admin'];
-            tabs.forEach(t => {
-                const sec = document.getElementById(`tab-${t}`);
-                const btn = document.getElementById(`nav-${t}`);
-                const mbtn = document.getElementById(`mnav-${t}`);
-
-                if (t === tabName) {
-                    sec.classList.remove('hidden');
-                    if (btn) {
-                        btn.classList.add('text-gaming-accent', 'bg-gaming-border');
-                        btn.classList.remove('text-gray-400');
-                    }
-                    if (mbtn) {
-                        mbtn.classList.add('text-gaming-accent', 'bg-gaming-border');
-                        mbtn.classList.remove('text-gray-400');
-                    }
-                } else {
-                    sec.classList.add('hidden');
-                    if (btn) {
-                        btn.classList.remove('text-gaming-accent', 'bg-gaming-border');
-                        btn.classList.add('text-gray-400');
-                    }
-                    if (mbtn) {
-                        mbtn.classList.remove('text-gaming-accent', 'bg-gaming-border');
-                        mbtn.classList.add('text-gray-400');
-                    }
-                }
-            });
+        function logoutAdmin() {
+            document.getElementById('admin-login-view').classList.remove('hidden');
+            document.getElementById('admin-control-view').classList.add('hidden');
+            document.getElementById('admin-pin').value = '';
         }
 
-        // --- RENDER MATCHES ---
-        function renderMatches() {
-            const grid = document.getElementById('tournaments-grid');
-            grid.innerHTML = '';
-
-            let filtered = appState.matches.filter(m => {
-                if (appState.sourceFilter !== 'ALL' && m.source !== appState.sourceFilter) return false;
-                if (appState.modeFilter !== 'ALL' && m.mode !== appState.modeFilter) return false;
-                return true;
-            });
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-gray-500 bg-gaming-card rounded-2xl border border-gaming-border">
-                        <i class="fa-solid fa-gamepad text-4xl mb-2 text-gray-600"></i>
-                        <p class="text-xs font-bold">No custom rooms or tournaments found for selected filter.</p>
-                        <button onclick="switchTab('create')" class="mt-3 bg-gaming-pink text-white font-bold px-4 py-2 rounded-xl text-xs">
-                            + Host A Custom Room Now
-                        </button>
-                    </div>
-                `;
-                return;
-            }
-
-            filtered.forEach(m => {
-                const isJoined = appState.user.joinedMatchIds.includes(m.id);
-                const isHost = m.hostName === appState.user.ign;
-                const progress = Math.min(100, Math.round((m.joinedSlots / m.totalSlots) * 100));
-
-                const card = document.createElement('div');
-                card.className = "bg-gaming-card border border-gaming-border rounded-2xl p-4 space-y-3.5 relative flex flex-col justify-between hover:border-gaming-accent/40 transition-all";
-
-                card.innerHTML = `
-                    <div>
-                        <!-- Badges -->
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <div class="flex items-center gap-1.5">
-                                <span class="${m.source === 'OFFICIAL' ? 'bg-gaming-gold/20 text-gaming-gold border-gaming-gold/40' : 'bg-gaming-pink/20 text-gaming-pink border-gaming-pink/40'} border text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-                                    ${m.source === 'OFFICIAL' ? '🏆 Official' : '👥 Friend Custom'}
-                                </span>
-                                <span class="bg-gaming-dark text-gray-300 border border-gaming-border text-[10px] font-bold px-2 py-0.5 rounded">
-                                    ${m.mode.replace('_', ' ')}
-                                </span>
-                            </div>
-                            <span class="text-[10px] font-mono text-gray-400 bg-gaming-dark px-1.5 py-0.5 rounded border border-gaming-border">Code: ${m.code}</span>
-                        </div>
-
-                        <!-- Match Title -->
-                        <h3 class="heading-font font-bold text-base text-white line-clamp-1">${m.title}</h3>
-                        <p class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
-                            <span>🗺️ Map: ${m.map}</span>
-                            <span>👤 Host: <strong class="text-gaming-accent">${m.hostName}</strong></span>
-                        </p>
-                        <p class="text-[11px] text-gray-400 mt-0.5 flex items-center gap-1">
-                            <i class="fa-regular fa-clock text-gaming-gold"></i> ${formatDateTime(m.time)}
-                        </p>
-
-                        <!-- Prize & Fee -->
-                        <div class="grid grid-cols-2 gap-2 mt-3 bg-gaming-dark p-2.5 rounded-xl border border-gaming-border text-center">
-                            <div>
-                                <span class="block text-[9px] text-gray-400 uppercase">Prize</span>
-                                <strong class="heading-font text-xs text-gaming-gold">${m.prizePool}</strong>
-                            </div>
-                            <div>
-                                <span class="block text-[9px] text-gray-400 uppercase">Entry Fee</span>
-                                <strong class="heading-font text-xs text-white">${m.entryFee === 0 ? 'FREE' : '🪙 ' + m.entryFee}</strong>
-                            </div>
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="mt-3 space-y-1">
-                            <div class="flex justify-between text-[11px] font-semibold">
-                                <span class="text-gray-400">Players Joined</span>
-                                <span class="text-gaming-accent">${m.joinedSlots} / ${m.totalSlots}</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-gaming-dark rounded-full overflow-hidden border border-gaming-border">
-                                <div class="h-full bg-gradient-to-r from-gaming-accent to-emerald-400" style="width: ${progress}%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="openJoinModal('${m.id}')" class="w-full ${isJoined ? 'bg-gaming-border text-gaming-accent hover:bg-gaming-accent hover:text-black' : 'bg-gradient-to-r from-gaming-accent to-emerald-500 text-black'} font-bold py-2 rounded-xl transition-all heading-font text-xs flex items-center justify-center gap-1.5">
-                            ${isJoined ? '🔑 View Room Credentials & Details' : '🎮 Join Room'}
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // --- RENDER JOINED MATCHES ---
-        function renderJoinedMatches() {
-            const grid = document.getElementById('joined-matches-grid');
-            const badge = document.getElementById('joined-count-badge');
-            grid.innerHTML = '';
-
-            const joinedList = appState.matches.filter(m => appState.user.joinedMatchIds.includes(m.id));
-            badge.innerText = `${joinedList.length} Matches`;
-
-            if (joinedList.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-xs text-gray-500 text-center py-6">You have not joined any match yet.</p>`;
-                return;
-            }
-
-            joinedList.forEach(m => {
-                const card = document.createElement('div');
-                card.className = "bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-3";
-                card.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <strong class="text-sm font-bold text-white heading-font block">${m.title}</strong>
-                            <span class="text-[10px] text-gaming-accent font-bold">Code: ${m.code} | Mode: ${m.mode}</span>
-                        </div>
-                        <span class="bg-gaming-purple/20 text-gaming-purple border border-gaming-purple/40 text-[10px] font-bold px-2 py-0.5 rounded">REGISTERED</span>
-                    </div>
-
-                    <div class="text-xs space-y-1 bg-gaming-card p-2.5 rounded-lg border border-gaming-border">
-                        <div class="flex justify-between text-gray-300">
-                            <span>Room ID:</span>
-                            <strong class="text-gaming-gold">${m.roomId || 'Waiting Host...'}</strong>
-                        </div>
-                        <div class="flex justify-between text-gray-300">
-                            <span>Password:</span>
-                            <strong class="text-gaming-gold">${m.roomPass || '****'}</strong>
-                        </div>
-                    </div>
-
-                    <button onclick="openJoinModal('${m.id}')" class="w-full bg-gaming-border hover:bg-gaming-accent hover:text-black text-white py-1.5 rounded-lg text-xs font-bold transition-all">
-                        Open Room Window
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // --- RENDER HOSTED ROOMS IN ADMIN PANEL ---
-        function renderAdminRooms() {
-            const list = document.getElementById('admin-hosted-rooms-list');
-            list.innerHTML = '';
-
-            const myHosted = appState.matches.filter(m => m.hostName === appState.user.ign);
-
-            if (myHosted.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-8 text-xs text-gray-500 bg-gaming-dark rounded-xl border border-gaming-border">
-                        <p>You haven't hosted any custom rooms yet.</p>
-                        <button onclick="switchTab('create')" class="mt-2 text-gaming-pink font-bold underline">Host your first room</button>
-                    </div>
-                `;
-                return;
-            }
-
-            myHosted.forEach(m => {
-                const card = document.createElement('div');
-                card.className = "bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-3";
-                card.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gaming-border pb-2">
-                        <div>
-                            <strong class="text-sm font-bold text-white heading-font">${m.title}</strong>
-                            <p class="text-[11px] text-gray-400">Match Code: <span class="text-gaming-pink font-mono">${m.code}</span> | Players Joined: ${m.joinedSlots}/${m.totalSlots}</p>
-                        </div>
-                        <span class="text-xs text-gaming-gold font-bold">Prize: ${m.prizePool}</span>
-                    </div>
-
-                    <!-- Host Controls -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-                        <input type="text" id="admin-rid-${m.id}" value="${m.roomId}" placeholder="Set In-Game Room ID" class="bg-gaming-card border border-gaming-border rounded-lg px-2.5 py-1.5 text-white">
-                        <input type="text" id="admin-rpass-${m.id}" value="${m.roomPass}" placeholder="Set Password" class="bg-gaming-card border border-gaming-border rounded-lg px-2.5 py-1.5 text-white">
-                        <button onclick="updateHostRoomCredentials('${m.id}')" class="bg-gaming-pink text-white font-bold rounded-lg py-1.5 hover:opacity-90">
-                            Save & Release Credentials
-                        </button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-        }
-
-        // --- HOST A CUSTOM ROOM HANDLER ---
-        function handleHostCustomRoom(e) {
+        function saveMatch(e) {
             e.preventDefault();
-
-            const title = document.getElementById('host-title').value;
-            const mode = document.getElementById('host-mode').value;
-            const map = document.getElementById('host-map').value;
-            const fee = parseInt(document.getElementById('host-fee').value);
-            const prize = document.getElementById('host-prize').value || 'Friendly Match';
-            const slots = parseInt(document.getElementById('host-slots').value);
-            const timeVal = document.getElementById('host-time').value;
-            const roomId = document.getElementById('host-room-id').value;
-            const roomPass = document.getElementById('host-room-pass').value;
-            const notes = document.getElementById('host-notes').value;
-
-            // Generate Match Unique Code
-            const randomCode = "FF-" + Math.floor(1000 + Math.random() * 9000);
-
-            const newCustomMatch = {
-                id: "custom-" + Date.now(),
-                code: randomCode,
-                title: title,
-                map: map,
-                mode: mode,
-                source: "COMMUNITY",
-                time: new Date(timeVal).toISOString(),
-                entryFee: fee,
-                prizePool: prize,
-                totalSlots: slots,
-                joinedSlots: 1, // Host is player #1
-                roomId: roomId,
-                roomPass: roomPass,
-                status: "UPCOMING",
-                hostName: appState.user.ign,
-                notes: notes || "Host custom rules apply."
+            const matchData = {
+                title: document.getElementById('m-title').value,
+                time: document.getElementById('m-time').value,
+                fee: document.getElementById('m-fee').value,
+                prize: document.getElementById('m-prize').value,
+                roomid: document.getElementById('m-roomid').value,
+                pass: document.getElementById('m-pass').value,
+                updatedAt: Date.now()
             };
 
-            // Add to matches and auto-join host
-            appState.matches.unshift(newCustomMatch);
-            appState.user.joinedMatchIds.push(newCustomMatch.id);
-
-            persistState();
-            renderMatches();
-            renderJoinedMatches();
-            renderAdminRooms();
-            document.getElementById('custom-room-form').reset();
-
-            showToast(`Custom Room Published! Room Code: ${randomCode}`, "success");
-            switchTab('tournaments');
+            db.ref('matches/main_match').set(matchData)
+                .then(() => {
+                    alert('Match Updated Successfully!');
+                    closeAdminModal();
+                })
+                .catch(err => alert('Error saving: ' + err.message));
         }
 
-        // --- UPDATE HOST ROOM CREDENTIALS ---
-        function updateHostRoomCredentials(matchId) {
-            const rid = document.getElementById(`admin-rid-${matchId}`).value;
-            const rpass = document.getElementById(`admin-rpass-${matchId}`).value;
-
-            const m = appState.matches.find(item => item.id === matchId);
-            if (m) {
-                m.roomId = rid;
-                m.roomPass = rpass;
-                persistState();
-                renderMatches();
-                renderJoinedMatches();
-                showToast("Room ID & Password updated for players!", "success");
-            }
-        }
-
-        // --- JOIN MATCH MODAL LOGIC ---
-        function openJoinModal(id) {
-            const m = appState.matches.find(item => item.id === id);
-            if (!m) return;
-            appState.selectedMatchId = id;
-
-            document.getElementById('modal-match-title').innerText = m.title;
-            document.getElementById('modal-match-map').innerText = `Map: ${m.map} | Host: ${m.hostName}`;
-            document.getElementById('modal-match-mode-badge').innerText = m.mode.replace('_', ' ');
-            document.getElementById('modal-match-source-badge').innerText = m.source;
-            document.getElementById('modal-share-code').innerText = m.code;
-            document.getElementById('modal-entry-fee').innerText = m.entryFee === 0 ? 'FREE' : `🪙 ${m.entryFee}`;
-
-            document.getElementById('player-uid').value = appState.user.uid;
-            document.getElementById('player-ign').value = appState.user.ign;
-
-            // Toggle team container
-            const teamBox = document.getElementById('team-members-container');
-            if (m.mode === 'SQUAD' || m.mode === 'DUO' || m.mode === 'CLASH_SQUAD') {
-                teamBox.classList.remove('hidden');
-            } else {
-                teamBox.classList.add('hidden');
-            }
-
-            const isJoined = appState.user.joinedMatchIds.includes(m.id);
-            const roomBox = document.getElementById('modal-room-details-box');
-            const submitBtn = document.getElementById('modal-submit-btn');
-
-            if (isJoined) {
-                submitBtn.innerText = "Already Joined";
-                submitBtn.disabled = true;
-                submitBtn.classList.add('opacity-50');
-
-                if (m.roomId) {
-                    roomBox.classList.remove('hidden');
-                    document.getElementById('modal-room-id').innerText = m.roomId;
-                    document.getElementById('modal-room-pass').innerText = m.roomPass || '1234';
-                } else {
-                    roomBox.classList.remove('hidden');
-                    document.getElementById('modal-room-id').innerText = "Host will release soon";
-                    document.getElementById('modal-room-pass').innerText = "****";
-                }
-            } else {
-                submitBtn.innerText = "Confirm & Join";
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-50');
-                roomBox.classList.add('hidden');
-            }
-
-            document.getElementById('modal-join').classList.remove('hidden');
-        }
-
-        function handleConfirmJoin(e) {
-            e.preventDefault();
-            const id = appState.selectedMatchId;
-            const m = appState.matches.find(item => item.id === id);
-            if (!m) return;
-
-            if (appState.user.wallet < m.entryFee) {
-                showToast("Insufficient Coins balance!", "error");
-                openWalletModal();
-                return;
-            }
-
-            appState.user.wallet -= m.entryFee;
-            appState.user.joinedMatchIds.push(m.id);
-            m.joinedSlots += 1;
-
-            if (m.entryFee > 0) {
-                appState.walletHistory.unshift({
-                    id: Date.now(),
-                    title: `Entry Fee: ${m.title}`,
-                    amount: -m.entryFee,
-                    date: "Just Now",
-                    type: "debit"
-                });
-            }
-
-            persistState();
-            updateUserUI();
-            renderMatches();
-            renderJoinedMatches();
-            renderWalletHistory();
-            closeModal('modal-join');
-            showToast("Successfully Joined Room!", "success");
-        }
-
-        // --- FILTERS & SEARCH ---
-        function setSourceFilter(src) {
-            appState.sourceFilter = src;
-            ['ALL', 'OFFICIAL', 'COMMUNITY'].forEach(s => {
-                const btn = document.getElementById(`src-filter-${s}`);
-                if (s === src) {
-                    btn.className = "px-3.5 py-1.5 rounded-lg bg-gaming-accent text-black transition-all";
-                } else {
-                    btn.className = "px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all";
-                }
-            });
-            renderMatches();
-        }
-
-        function setModeFilter(mode) {
-            appState.modeFilter = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                if (btn.dataset.mode === mode) {
-                    btn.className = "mode-btn active-mode px-3 py-1.5 rounded-lg bg-gaming-border text-white whitespace-nowrap";
-                } else {
-                    btn.className = "mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap";
-                }
-            });
-            renderMatches();
-        }
-
-        function searchByMatchCode() {
-            const query = document.getElementById('match-code-search').value.trim().toUpperCase();
-            if (!query) {
-                renderMatches();
-                return;
-            }
-            const match = appState.matches.find(m => m.code === query || m.title.toUpperCase().includes(query));
-            if (match) {
-                openJoinModal(match.id);
-            } else {
-                showToast("No match found with that room code!", "error");
-            }
-        }
-
-        // --- POINTS CALCULATOR & LEADERBOARD ---
-        function togglePointsCalculator() {
-            document.getElementById('points-calculator-box').classList.toggle('hidden');
-        }
-
-        function calculateScore() {
-            const rankPts = parseInt(document.getElementById('calc-rank').value);
-            const kills = parseInt(document.getElementById('calc-kills').value) || 0;
-            const total = rankPts + kills;
-            document.getElementById('calc-result').innerText = `${total} Points (${rankPts} Rank + ${kills} Kills)`;
-        }
-
-        function renderLeaderboard() {
-            const tbody = document.getElementById('leaderboard-body');
-            tbody.innerHTML = '';
-
-            appState.leaderboard.forEach((item, index) => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-gaming-border/30 transition-all";
-                tr.innerHTML = `
-                    <td class="p-3 text-center font-bold">${index === 0 ? '👑 #1' : '#' + (index + 1)}</td>
-                    <td class="p-3 font-bold text-white">${item.team}</td>
-                    <td class="p-3 text-center text-gray-300">${item.matches}</td>
-                    <td class="p-3 text-center text-gaming-gold font-bold">${item.booyahs}</td>
-                    <td class="p-3 text-center text-gaming-pink font-bold">${item.kills}</td>
-                    <td class="p-3 text-center text-gray-400">${item.placementPts}</td>
-                    <td class="p-3 text-center text-gaming-accent font-black heading-font text-sm">${item.totalPts}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // --- WALLET & COINS ---
-        function openWalletModal() {
-            document.getElementById('wallet-modal-balance').innerText = `🪙 ${appState.user.wallet}`;
-            document.getElementById('modal-wallet').classList.remove('hidden');
-        }
-
-        function handleAddCoinsDemo() {
-            appState.user.wallet += 200;
-            appState.walletHistory.unshift({
-                id: Date.now(),
-                title: "Added Demo Coins",
-                amount: 200,
-                date: "Just Now",
-                type: "credit"
-            });
-            persistState();
-            updateUserUI();
-            renderWalletHistory();
-            document.getElementById('wallet-modal-balance').innerText = `🪙 ${appState.user.wallet}`;
-            showToast("200 Coins Added!", "success");
-        }
-
-        function toggleWithdrawForm() {
-            document.getElementById('withdraw-form').classList.toggle('hidden');
-        }
-
-        function handleWithdraw(e) {
-            e.preventDefault();
-            const amt = parseInt(document.getElementById('withdraw-amount').value);
-            if (amt > appState.user.wallet) {
-                showToast("Insufficient Coins balance!", "error");
-                return;
-            }
-            appState.user.wallet -= amt;
-            appState.walletHistory.unshift({
-                id: Date.now(),
-                title: "Withdrawal Request",
-                amount: -amt,
-                date: "Pending",
-                type: "debit"
-            });
-            persistState();
-            updateUserUI();
-            renderWalletHistory();
-            document.getElementById('wallet-modal-balance').innerText = `🪙 ${appState.user.wallet}`;
-            toggleWithdrawForm();
-            showToast("Withdrawal Request Submitted!", "success");
-        }
-
-        function renderWalletHistory() {
-            const list = document.getElementById('wallet-history-list');
-            list.innerHTML = '';
-            appState.walletHistory.forEach(h => {
-                const div = document.createElement('div');
-                div.className = "flex items-center justify-between p-2 rounded-lg bg-gaming-dark border border-gaming-border";
-                div.innerHTML = `
-                    <div>
-                        <strong class="block text-white">${h.title}</strong>
-                        <span class="text-[10px] text-gray-500">${h.date}</span>
-                    </div>
-                    <span class="font-bold heading-font ${h.type === 'credit' ? 'text-gaming-accent' : 'text-gaming-pink'}">
-                        ${h.type === 'credit' ? '+' : ''}${h.amount}
-                    </span>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        // --- PROFILE ---
-        function openProfileModal() {
-            document.getElementById('profile-ign-display').innerText = appState.user.ign;
-            document.getElementById('profile-uid-display').innerText = appState.user.uid;
-            document.getElementById('edit-profile-ign').value = appState.user.ign;
-            document.getElementById('edit-profile-uid').value = appState.user.uid;
-            document.getElementById('modal-profile').classList.remove('hidden');
-        }
-
-        function saveProfileInfo() {
-            const ign = document.getElementById('edit-profile-ign').value;
-            const uid = document.getElementById('edit-profile-uid').value;
-            if (ign && uid) {
-                appState.user.ign = ign;
-                appState.user.uid = uid;
-                persistState();
-                updateUserUI();
-                closeModal('modal-profile');
-                showToast("Profile Updated!", "success");
-            }
-        }
-
-        // --- UTILS ---
-        function updateUserUI() {
-            document.getElementById('user-wallet-balance').innerText = `🪙 ${appState.user.wallet}`;
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
-        function formatDateTime(isoStr) {
-            const d = new Date(isoStr);
-            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' at ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function adjustSlotLimits() {
-            const mode = document.getElementById('host-mode').value;
-            const slots = document.getElementById('host-slots');
-            if (mode === 'CLASH_SQUAD') slots.value = 8;
-            else if (mode === 'DUO') slots.value = 24;
-            else slots.value = 48;
-        }
-
-        function copyText(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(() => showToast("Copied to clipboard!", "success"));
-        }
-
-        function copyShareLink() {
-            const code = document.getElementById('modal-share-code').innerText;
-            const link = `${window.location.origin}${window.location.pathname}?room=${code}`;
-            navigator.clipboard.writeText(link).then(() => showToast("Shareable Room Link Copied!", "success"));
-        }
-
-        function startTimerLoop() {
-            setInterval(() => {
-                if (appState.selectedMatchId) {
-                    const m = appState.matches.find(i => i.id === appState.selectedMatchId);
-                    if (m) {
-                        const diff = new Date(m.time).getTime() - new Date().getTime();
-                        if (diff <= 0) {
-                            document.getElementById('modal-countdown').innerText = "LIVE NOW";
-                        } else {
-                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            const secs = Math.floor((diff % (1000 * 60)) / 1000);
-                            document.getElementById('modal-countdown').innerText = `${mins}m ${secs}s`;
-                        }
-                    }
-                }
-            }, 1000);
-        }
-
-        function showToast(msg, type = "success") {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
-        }
+        // Auto open admin modal if URL hash is #admin
+        if(window.location.hash === '#admin') { openAdminModal(); }
     </script>
 </body>
 </html>
