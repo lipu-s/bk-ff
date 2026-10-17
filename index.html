@@ -3,228 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOYAH ZONE - Custom Rooms & Earn Cash</title>
+    <title>BOOYAH ZONE - Custom Rooms & Esports Platform</title>
+    <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gaming: { dark: '#0a0e17', card: '#121826', border: '#1e293b', accent: '#00ff88', pink: '#ff0055', gold: '#ffaa00' }
-                    },
-                    fontFamily: { orbitron: ['Orbitron', 'sans-serif'], rajdhani: ['Rajdhani', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { background-color: #0a0e17; color: #e2e8f0; font-family: 'Rajdhani', sans-serif; }
-        .heading-font { font-family: 'Orbitron', sans-serif; }
+        body { background-color: #0b0e17; color: #d1d5db; font-family: 'Rajdhani', sans-serif; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .booyah-card { background: #111625; border: 1px solid #1e2638; border-radius: 16px; }
+        .booyah-green-btn { background: #00ff88; color: #051a10; font-weight: 800; }
+        .booyah-green-btn:hover { background: #00e67a; }
+        .progress-bar-fill { background: #00ff88; box-shadow: 0 0 8px #00ff88; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0b0e17; }
+        ::-webkit-scrollbar-thumb { background: #1e2638; border-radius: 4px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-gaming-accent selection:text-black">
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#00ff88] selection:text-black pb-16">
 
-    <!-- NAVIGATION HEADER -->
-    <header class="sticky top-0 z-40 bg-gaming-dark/95 border-b border-gaming-border backdrop-blur-md px-4 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('tournaments')">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-gaming-pink to-gaming-accent p-0.5 flex items-center justify-center">
-                    <div class="w-full h-full bg-gaming-dark rounded-[10px] flex items-center justify-center">
-                        <i class="fa-solid fa-fire-flame-curved text-gaming-pink text-xl"></i>
-                    </div>
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="bg-[#0e121e] border-b border-gray-800/80 p-3.5 sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('tournaments')">
+                <div class="w-10 h-10 rounded-xl bg-pink-500/10 border-2 border-pink-500 flex items-center justify-center text-pink-500 text-xl font-bold">
+                    <i class="fa-solid fa-fire"></i>
                 </div>
                 <div>
-                    <h1 class="heading-font font-black text-xl text-white">BOOYAH<span class="text-gaming-accent">ZONE</span></h1>
+                    <h1 class="text-xl font-black font-orbitron text-white tracking-wider leading-none">
+                        BOOYAH <span class="text-[#00ff88]">ZONE</span>
+                    </h1>
+                    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">CUSTOM ROOMS & TOURNAMENTS</p>
                 </div>
             </div>
 
-            <!-- User Balance & Auth Buttons -->
-            <div class="flex items-center gap-2.5" id="auth-header-section">
-                <!-- Will render dynamically based on login status -->
+            <!-- Header Balance & Profile Section -->
+            <div class="flex items-center gap-2.5" id="header-user-section">
+                <!-- Dynamically rendered (Login button or Wallet/Profile) -->
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
-        <section id="tab-tournaments" class="space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border text-center space-y-3">
-                <h2 class="heading-font text-2xl font-bold text-white">Welcome to Booyah Zone</h2>
-                <p class="text-xs text-gray-400">Play Free Fire custom rooms, watch ads, and earn real cash!</p>
+    <!-- NAVIGATION TABS -->
+    <div class="bg-[#0e121e] border-b border-gray-800/60 px-4 py-2">
+        <div class="max-w-4xl mx-auto flex gap-4 text-xs font-bold overflow-x-auto whitespace-nowrap">
+            <button onclick="switchTab('tournaments')" id="tab-btn-tournaments" class="text-[#00ff88] border-b-2 border-[#00ff88] pb-1 font-orbitron uppercase tracking-wider">Matches</button>
+            <button onclick="switchTab('create')" id="tab-btn-create" class="text-pink-500 hover:text-pink-400 pb-1 font-orbitron uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i> Host Custom
+            </button>
+            <button onclick="switchTab('earn')" id="tab-btn-earn" class="text-amber-400 hover:text-yellow-300 pb-1 font-orbitron uppercase tracking-wider animate-pulse">
+                📺 Watch Ads & Earn
+            </button>
+            <button onclick="switchTab('my-matches')" id="tab-btn-my-matches" class="text-gray-400 hover:text-white pb-1 font-orbitron uppercase tracking-wider">Joined</button>
+            <button onclick="switchTab('leaderboard')" id="tab-btn-leaderboard" class="text-gray-400 hover:text-white pb-1 font-orbitron uppercase tracking-wider">Standings</button>
+            <button onclick="switchTab('my-rooms')" id="tab-btn-my-rooms" class="text-amber-400 hover:text-amber-300 pb-1 font-orbitron uppercase tracking-wider">My Rooms</button>
+        </div>
+    </div>
+
+    <!-- MAIN BODY CONTENT -->
+    <main class="max-w-4xl mx-auto p-4 w-full flex-grow space-y-5">
+
+        <!-- TAB 1: MATCHES (EXACT HOME SCREEN) -->
+        <section id="tab-tournaments" class="space-y-5">
+            <!-- Top Announcement Banner -->
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-4 text-center space-y-2">
+                <div class="flex items-center justify-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#00ff88] animate-ping"></span>
+                    <span class="text-xs font-bold text-[#00ff88] uppercase tracking-wider">FREE FIRE CUSTOM HUB:</span>
+                </div>
+                <p class="text-xs text-gray-300">Host custom rooms with friends or compete in official tournaments! Auto Room-ID release & FFWS scoring.</p>
+                <button onclick="switchTab('create')" class="bg-pink-600/20 border border-pink-500 text-pink-400 font-extrabold text-xs px-5 py-2 rounded-xl uppercase hover:bg-pink-600 hover:text-white transition">
+                    HOST ROOM NOW
+                </button>
             </div>
-            <div id="tournaments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Matches -->
+
+            <!-- Filters Section -->
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-3 space-y-3">
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setSourceFilter('ALL')" id="src-ALL" class="booyah-green-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">All Matches</button>
+                    <button onclick="setSourceFilter('OFFICIAL')" id="src-OFFICIAL" class="bg-[#161c2e] text-gray-300 font-bold py-2.5 px-2 rounded-xl text-xs border border-gray-800 hover:text-white flex items-center justify-center gap-1">🏆 Official Esports</button>
+                    <button onclick="setSourceFilter('COMMUNITY')" id="src-COMMUNITY" class="bg-[#161c2e] text-gray-300 font-bold py-2.5 px-2 rounded-xl text-xs border border-gray-800 hover:text-white flex items-center justify-center gap-1">👥 Friend Custom Rooms</button>
+                </div>
+
+                <div class="flex gap-2 overflow-x-auto text-xs font-bold whitespace-nowrap">
+                    <button onclick="setModeFilter('ALL')" class="bg-[#1c2438] text-white px-4 py-2 rounded-xl border border-gray-700">All Modes</button>
+                    <button onclick="setModeFilter('SOLO')" class="bg-[#161c2e] text-gray-400 hover:text-white px-4 py-2 rounded-xl border border-gray-800 flex items-center gap-1"><i class="fa-solid fa-user text-blue-400"></i> Solo</button>
+                    <button onclick="setModeFilter('DUO')" class="bg-[#161c2e] text-gray-400 hover:text-white px-4 py-2 rounded-xl border border-gray-800 flex items-center gap-1"><i class="fa-solid fa-user-group text-blue-400"></i> Duo</button>
+                    <button onclick="setModeFilter('SQUAD')" class="bg-[#161c2e] text-gray-400 hover:text-white px-4 py-2 rounded-xl border border-gray-800 flex items-center gap-1"><i class="fa-solid fa-users text-amber-400"></i> Squad</button>
+                </div>
+
+                <div class="flex gap-2 pt-1">
+                    <div class="relative flex-grow">
+                        <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-gray-500 text-xs"></i>
+                        <input type="text" id="search-code" placeholder="ENTER ROOM CODE (E.G. FF-9081)" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#00ff88] uppercase font-mono">
+                    </div>
+                    <button onclick="searchRoomCode()" class="booyah-green-btn px-5 rounded-xl text-xs font-bold">Find</button>
+                </div>
+            </div>
+
+            <!-- Matches List Container -->
+            <div id="matches-list" class="space-y-4">
+                <!-- Match cards rendered here -->
             </div>
         </section>
+
+        <!-- TAB 2: HOST CUSTOM ROOM -->
+        <section id="tab-create" class="hidden space-y-5">
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-5 space-y-4">
+                <div class="border-b border-gray-800 pb-3">
+                    <span class="bg-pink-500/20 text-pink-400 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded">Community Custom Room Host</span>
+                    <h2 class="text-xl font-extrabold font-orbitron text-white mt-2">Host Free Fire Custom Room</h2>
+                </div>
+
+                <form id="host-room-form" onsubmit="handleHostRoom(event)" class="space-y-3 text-xs font-bold">
+                    <div>
+                        <label class="block text-gray-400 mb-1">Room Title *</label>
+                        <input type="text" id="h-title" required placeholder="e.g. Friends Saturday Cup #01" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-gray-400 mb-1">Game Mode</label>
+                            <select id="h-mode" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                                <option value="SQUAD">Squad (48 Players)</option>
+                                <option value="DUO">Duo (24 Teams)</option>
+                                <option value="SOLO">Solo (48 Players)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-1">Map</label>
+                            <select id="h-map" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                                <option value="Bermuda">Bermuda</option>
+                                <option value="Purgatory">Purgatory</option>
+                                <option value="Kalahari">Kalahari</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-gray-400 mb-1">Entry Fee (Coins / FREE)</label>
+                            <input type="number" id="h-fee" value="0" min="0" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-1">Prize Pool</label>
+                            <input type="text" id="h-prize" value="1,000 Coins" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-gray-400 mb-1">Room ID (In-Game)</label>
+                            <input type="text" id="h-roomid" placeholder="e.g. 1234567" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-1">Room Password</label>
+                            <input type="text" id="h-pass" placeholder="e.g. bk123" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white font-mono">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full booyah-green-btn py-3.5 rounded-xl uppercase font-orbitron text-xs mt-2">🚀 Publish Custom Room Live</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 3: WATCH ADS & EARN -->
+        <section id="tab-earn" class="hidden space-y-5">
+            <div class="bg-[#111625] border border-amber-500/40 rounded-2xl p-6 text-center space-y-5">
+                <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500 flex items-center justify-center mx-auto text-amber-400 text-3xl animate-bounce">
+                    <i class="fa-solid fa-rectangle-ad"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-extrabold font-orbitron text-white">Watch Ads & Earn Coins</h2>
+                    <p class="text-xs text-gray-400 mt-1">Complete viewing 10 Ads to instantly receive <strong class="text-amber-400">100 Coins (₹5.00)</strong> in your wallet!</p>
+                </div>
+
+                <div class="bg-[#0a0d14] p-4 rounded-xl border border-gray-800 space-y-2">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-gray-400">Ads Progress Completed</span>
+                        <span id="ads-count-text" class="text-amber-400">0 / 10 Ads</span>
+                    </div>
+                    <div class="w-full h-3 bg-[#111625] rounded-full overflow-hidden border border-gray-800">
+                        <div id="ads-progress-bar" class="h-full bg-amber-400 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <button onclick="simulateWatchAd()" class="w-full bg-amber-400 hover:bg-yellow-300 text-black font-extrabold py-3.5 rounded-xl uppercase font-orbitron text-xs">
+                    ▶️ Watch Sponsored Ad (+1 Ad)
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 4: JOINED MATCHES -->
+        <section id="tab-my-matches" class="hidden space-y-4">
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-4">
+                <h2 class="text-base font-extrabold font-orbitron text-white mb-3">My Registered Matches</h2>
+                <div id="joined-matches-list" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <!-- TAB 5: STANDINGS -->
+        <section id="tab-leaderboard" class="hidden space-y-4">
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-4">
+                <h2 class="text-base font-extrabold font-orbitron text-white mb-3">Tournament Standings</h2>
+                <div class="bg-[#0a0d14] p-4 rounded-xl border border-gray-800 text-xs space-y-2">
+                    <div class="flex justify-between font-bold text-gray-300">
+                        <span>#1 Total Gaming</span>
+                        <span class="text-[#00ff88]">168 Pts</span>
+                    </div>
+                    <div class="flex justify-between font-bold text-gray-300">
+                        <span>#2 Kalinga Esports</span>
+                        <span class="text-[#00ff88]">137 Pts</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: MY HOSTED ROOMS -->
+        <section id="tab-my-rooms" class="hidden space-y-4">
+            <div class="bg-[#111625] border border-gray-800 rounded-2xl p-4">
+                <h2 class="text-base font-extrabold font-orbitron text-white mb-3">My Hosted Custom Rooms</h2>
+                <div id="my-rooms-list" class="space-y-3"></div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- MODAL: LOGIN / SIGN UP -->
-    <div id="modal-auth" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-4 relative text-xs">
-            <button onclick="closeModal('modal-auth')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            
-            <!-- Tabs Toggle -->
-            <div class="flex bg-gaming-dark p-1 rounded-xl border border-gaming-border font-bold">
-                <button onclick="switchAuthMode('login')" id="auth-tab-login" class="w-1/2 py-2 rounded-lg bg-gaming-accent text-black transition-all">Login</button>
-                <button onclick="switchAuthMode('signup')" id="auth-tab-signup" class="w-1/2 py-2 rounded-lg text-gray-400 hover:text-white transition-all">Sign Up</button>
+    <!-- MODAL 1: AUTHENTICATION (LOGIN / SIGN UP) -->
+    <div id="modal-auth" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-[#111625] border border-gray-800 rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeModal('modal-auth')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <div class="flex bg-[#0a0d14] p-1 rounded-xl border border-gray-800 text-xs font-bold mb-4">
+                <button onclick="switchAuthMode('login')" id="auth-tab-login" class="w-1/2 py-2 rounded-lg booyah-green-btn">Login</button>
+                <button onclick="switchAuthMode('signup')" id="auth-tab-signup" class="w-1/2 py-2 rounded-lg text-gray-400 hover:text-white">Sign Up</button>
             </div>
 
             <!-- LOGIN FORM -->
-            <form id="form-login" onsubmit="handleLogin(event)" class="space-y-3 pt-2">
-                <h3 class="heading-font text-base font-bold text-white">Login to your Account</h3>
-                <div>
-                    <label class="block text-gray-400 mb-1">Mobile Number / Email</label>
-                    <input type="text" id="login-username" required placeholder="Enter mobile or email" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Password</label>
-                    <input type="password" id="login-password" required placeholder="********" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <button type="submit" class="w-full bg-gaming-accent text-black font-bold py-2.5 rounded-xl">Login Now</button>
+            <form id="form-login" onsubmit="handleLogin(event)" class="space-y-3 text-xs font-bold">
+                <h3 class="text-sm font-extrabold font-orbitron text-white">Login to Account</h3>
+                <input type="text" id="login-user" required placeholder="Mobile Number / IGN" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <input type="password" id="login-pass" required placeholder="Password" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <button type="submit" class="w-full booyah-green-btn py-3 rounded-xl uppercase font-orbitron">Login Now</button>
             </form>
 
-            <!-- SIGN UP FORM -->
-            <form id="form-signup" onsubmit="handleSignup(event)" class="space-y-3 pt-2 hidden">
-                <h3 class="heading-font text-base font-bold text-white">Create New Account</h3>
-                <div>
-                    <label class="block text-gray-400 mb-1">In-Game Name (IGN)</label>
-                    <input type="text" id="signup-ign" required placeholder="e.g. OP_PLAYER" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Free Fire UID</label>
-                    <input type="text" id="signup-uid" required placeholder="e.g. 19283049" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Mobile Number</label>
-                    <input type="text" id="signup-mobile" required placeholder="10-digit mobile number" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">Password</label>
-                    <input type="password" id="signup-password" required placeholder="Create password" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
-                </div>
-                <button type="submit" class="w-full bg-gaming-pink text-white font-bold py-2.5 rounded-xl">Create Account & Get ₹50</button>
+            <!-- SIGNUP FORM -->
+            <form id="form-signup" onsubmit="handleSignup(event)" class="space-y-3 text-xs font-bold hidden">
+                <h3 class="text-sm font-extrabold font-orbitron text-white">Create New Account</h3>
+                <input type="text" id="signup-ign" required placeholder="In-Game Name (IGN)" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <input type="text" id="signup-uid" required placeholder="Free Fire UID" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <input type="text" id="signup-mobile" required placeholder="10-Digit Mobile Number" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <input type="password" id="signup-pass" required placeholder="Create Password" class="w-full bg-[#0a0d14] border border-gray-800 rounded-xl p-3 text-white">
+                <button type="submit" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-extrabold py-3 rounded-xl uppercase font-orbitron">Sign Up & Get 500 Coins</button>
             </form>
         </div>
     </div>
 
-    <!-- TOAST -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gaming-card border border-gaming-accent text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2">
-        <i class="fa-solid fa-circle-check text-gaming-accent"></i>
-        <span id="toast-message">Notification</span>
+    <!-- MODAL 2: WALLET (CASH ADD & WITHDRAWAL VIA PHONEPE/PAYTM/GPAY) -->
+    <div id="modal-wallet" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-[#111625] border border-gray-800 rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('modal-wallet')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <div class="text-center space-y-1 mb-4">
+                <h3 class="text-base font-extrabold font-orbitron text-white">Booyah Wallet</h3>
+                <div class="text-2xl font-black font-orbitron text-amber-400" id="wallet-modal-balance">🪙 500</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs font-bold mb-4">
+                <button onclick="showWalletTab('add')" class="bg-[#00ff88]/20 border border-[#00ff88]/40 text-[#00ff88] py-2.5 rounded-xl uppercase">➕ Add Cash</button>
+                <button onclick="showWalletTab('withdraw')" class="bg-amber-500/20 border border-amber-500/40 text-amber-400 py-2.5 rounded-xl uppercase">💸 Withdraw</button>
+            </div>
+
+            <!-- ADD CASH -->
+            <div id="w-sec-add" class="hidden space-y-3 bg-[#0a0d14] p-4 rounded-xl border border-gray-800 text-xs font-bold">
+                <h4 class="text-white text-center">Scan QR to Pay via PhonePe / Paytm / GPay</h4>
+                <div class="bg-white p-2 rounded-xl w-36 h-36 mx-auto">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=bkzone@paytm&pn=BooyahZone" class="w-full h-full object-contain">
+                </div>
+                <input type="number" id="add-amt" placeholder="Amount Paid (₹)" class="w-full bg-[#111625] border border-gray-800 rounded-lg p-2.5 text-white">
+                <input type="text" id="add-utr" placeholder="12-Digit UTR / Transaction ID" class="w-full bg-[#111625] border border-gray-800 rounded-lg p-2.5 text-white">
+                <button onclick="submitAddCash()" class="w-full booyah-green-btn py-2.5 rounded-lg uppercase">Verify & Add Coins</button>
+            </div>
+
+            <!-- WITHDRAW -->
+            <div id="w-sec-withdraw" class="hidden space-y-3 bg-[#0a0d14] p-4 rounded-xl border border-gray-800 text-xs font-bold">
+                <h4 class="text-white">Withdraw via PhonePe / Paytm / GPay</h4>
+                <select id="wd-app" class="w-full bg-[#111625] border border-gray-800 rounded-lg p-2.5 text-white">
+                    <option value="PhonePe">PhonePe</option>
+                    <option value="Paytm">Paytm</option>
+                    <option value="Google Pay">Google Pay (GPay)</option>
+                </select>
+                <input type="number" id="wd-amt" placeholder="Coins to Cashout (Min 500 = ₹25)" class="w-full bg-[#111625] border border-gray-800 rounded-lg p-2.5 text-white">
+                <input type="text" id="wd-upi" placeholder="UPI ID / Mobile Number" class="w-full bg-[#111625] border border-gray-800 rounded-lg p-2.5 text-white">
+                <button onclick="submitWithdraw()" class="w-full bg-amber-400 text-black py-2.5 rounded-lg uppercase font-orbitron">Submit Request</button>
+            </div>
+        </div>
     </div>
 
+    <!-- FIREBASE SDKs & LOGIC SCRIPT -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAZZpUFjvLgpR8Bx41zRTOD05hPt5lG2bE",
+            authDomain: "bk-fft.firebaseapp.com",
+            databaseURL: "https://bk-fft-default-rtdb.firebaseio.com",
+            projectId: "bk-fft",
+            storageBucket: "bk-fft.firebasestorage.app",
+            messagingSenderId: "670932523757",
+            appId: "1:670932523757:web:26e918428a106798e20ae4"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         let appState = {
-            currentUser: JSON.parse(localStorage.getItem('bz_logged_user')) || null,
-            usersDb: JSON.parse(localStorage.getItem('bz_users_db')) || []
+            currentUser: JSON.parse(localStorage.getItem('bz_user')) || null,
+            usersDb: JSON.parse(localStorage.getItem('bz_users')) || [],
+            matches: [],
+            sourceFilter: 'ALL',
+            modeFilter: 'ALL'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            updateAuthHeader();
+            initFirebaseSync();
+            renderHeaderUserSection();
         });
 
-        function updateAuthHeader() {
-            const container = document.getElementById('auth-header-section');
+        function initFirebaseSync() {
+            db.ref('booyah_matches').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (!data) {
+                    const defaultM = {
+                        id: "match-101",
+                        code: "FF-1010",
+                        title: "Booyah Bermuda Championship #01",
+                        map: "Bermuda",
+                        mode: "SQUAD",
+                        source: "OFFICIAL",
+                        time: "Oct 17 at 15:28",
+                        entryFee: 0,
+                        prizePool: "1,000 Coins",
+                        totalSlots: 48,
+                        joinedSlots: 36,
+                        roomId: "8829012",
+                        roomPass: "7788",
+                        hostName: "Booyah Admin"
+                    };
+                    db.ref('booyah_matches/' + defaultM.id).set(defaultM);
+                    return;
+                }
+                appState.matches = Object.values(data);
+                renderMatches();
+                renderJoinedMatches();
+                renderMyRooms();
+            });
+        }
+
+        function renderHeaderUserSection() {
+            const container = document.getElementById('header-user-section');
             if (appState.currentUser) {
                 container.innerHTML = `
-                    <div class="flex items-center gap-2 bg-gaming-card border border-gaming-border px-3 py-1.5 rounded-xl">
-                        <i class="fa-solid fa-wallet text-gaming-gold"></i>
-                        <span class="text-xs font-bold text-gaming-gold">₹${appState.currentUser.wallet.toFixed(2)}</span>
-                    </div>
-                    <button onclick="handleLogout()" class="bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-bold px-3 py-1.5 rounded-xl">Logout</button>
+                    <button onclick="openWalletModal()" class="bg-[#141a29] border border-gray-800 rounded-xl px-3 py-1.5 flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-amber-400 text-lg"></i>
+                        <div class="text-left">
+                            <span class="text-[9px] text-gray-400 block font-bold uppercase leading-none">Coins</span>
+                            <span class="text-sm font-black font-orbitron text-amber-400 leading-none">${appState.currentUser.wallet || 500}</span>
+                        </div>
+                    </button>
+                    <button onclick="handleLogout()" class="w-9 h-9 rounded-xl bg-[#141a29] border border-gray-800 flex items-center justify-center text-red-400 hover:text-red-300">
+                        <i class="fa-solid fa-power-off text-sm"></i>
+                    </button>
                 `;
             } else {
                 container.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="bg-gaming-accent text-black text-xs font-bold px-4 py-2 rounded-xl">Login</button>
-                    <button onclick="openAuthModal('signup')" class="bg-gaming-pink text-white text-xs font-bold px-4 py-2 rounded-xl">Sign Up</button>
+                    <button onclick="openAuthModal('login')" class="booyah-green-btn px-4 py-2 rounded-xl text-xs uppercase font-orbitron">Login</button>
                 `;
             }
         }
 
-        function openAuthModal(mode) {
-            switchAuthMode(mode);
-            document.getElementById('modal-auth').classList.remove('hidden');
+        function renderMatches() {
+            const container = document.getElementById('matches-list');
+            container.innerHTML = '';
+
+            let filtered = appState.matches.filter(m => {
+                if (appState.sourceFilter !== 'ALL' && m.source !== appState.sourceFilter) return false;
+                if (appState.modeFilter !== 'ALL' && m.mode !== appState.modeFilter) return false;
+                return true;
+            });
+
+            filtered.forEach(match => {
+                const isJoined = appState.currentUser && appState.currentUser.joinedIds && appState.currentUser.joinedIds.includes(match.id);
+                const progress = Math.min(100, Math.round(((match.joinedSlots || 1) / match.totalSlots) * 100));
+
+                const card = `
+                    <div class="booyah-card p-4 space-y-3.5 border border-gray-800">
+                        <div class="flex justify-between items-center text-[10px] font-extrabold uppercase">
+                            <div class="flex items-center gap-1.5">
+                                <span class="${match.source === 'OFFICIAL' ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' : 'bg-pink-500/20 text-pink-400 border-pink-500/40'} border px-2 py-0.5 rounded">
+                                    ${match.source === 'OFFICIAL' ? '🏆 OFFICIAL' : '👥 COMMUNITY'}
+                                </span>
+                                <span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded">${match.mode || 'SQUAD'}</span>
+                            </div>
+                            <span class="text-gray-400 font-mono">Code: <b class="text-gray-200">${match.code || 'FF-1010'}</b></span>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-extrabold font-orbitron text-white tracking-wide">${match.title}</h3>
+                            <div class="flex items-center gap-4 text-xs text-gray-400 mt-1">
+                                <span>🗺️ Map: <b>${match.map || 'Bermuda'}</b></span>
+                                <span class="text-blue-400">👤 Host: <b>${match.hostName || 'BK Admin'}</b></span>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#0b0e17] rounded-xl p-3 border border-gray-800 grid grid-cols-2 text-center">
+                            <div>
+                                <span class="text-[9px] text-gray-500 uppercase font-bold block">PRIZE</span>
+                                <span class="text-sm font-extrabold font-orbitron text-amber-400 mt-0.5 block">${match.prizePool}</span>
+                            </div>
+                            <div class="border-l border-gray-800">
+                                <span class="text-[9px] text-gray-500 uppercase font-bold block">ENTRY FEE</span>
+                                <span class="text-sm font-extrabold font-orbitron text-white mt-0.5 block">${match.entryFee === 0 ? 'FREE' : match.entryFee + ' Coins'}</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-gray-400">Players Joined</span>
+                                <span class="text-[#00ff88]">${match.joinedSlots || 1} / ${match.totalSlots}</span>
+                            </div>
+                            <div class="w-full bg-[#0b0e17] h-2 rounded-full overflow-hidden border border-gray-800">
+                                <div class="progress-bar-fill h-full rounded-full" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+
+                        <button onclick="handleJoinClick('${match.id}')" class="w-full bg-[#161f33] hover:bg-[#1e2a45] text-[#00ff88] border border-[#00ff88]/30 font-extrabold text-xs py-3 rounded-xl flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-key text-amber-400"></i> ${isJoined ? 'ID: ' + (match.roomId || 'Pending') + ' | Pass: ' + (match.roomPass || '***') : 'View Room Credentials & Details'}
+                        </button>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
         }
 
-        function switchAuthMode(mode) {
-            const loginForm = document.getElementById('form-login');
-            const signupForm = document.getElementById('form-signup');
-            const tabLogin = document.getElementById('auth-tab-login');
-            const tabSignup = document.getElementById('auth-tab-signup');
+        function handleJoinClick(matchId) {
+            if (!appState.currentUser) { openAuthModal('login'); return; }
+            const match = appState.matches.find(m => m.id === matchId);
+            if (!match) return;
 
-            if (mode === 'login') {
-                loginForm.classList.remove('hidden');
-                signupForm.classList.add('hidden');
-                tabLogin.className = "w-1/2 py-2 rounded-lg bg-gaming-accent text-black transition-all font-bold";
-                tabSignup.className = "w-1/2 py-2 rounded-lg text-gray-400 hover:text-white transition-all";
+            if (!appState.currentUser.joinedIds) appState.currentUser.joinedIds = [];
+
+            if (!appState.currentUser.joinedIds.includes(matchId)) {
+                if ((appState.currentUser.wallet || 0) < match.entryFee) {
+                    alert('Insufficient Coins! Watch ads or add cash.');
+                    return;
+                }
+                appState.currentUser.wallet -= match.entryFee;
+                appState.currentUser.joinedIds.push(matchId);
+                match.joinedSlots = (match.joinedSlots || 1) + 1;
+
+                db.ref('booyah_matches/' + matchId).update({ joinedSlots: match.joinedSlots });
+                localStorage.setItem('bz_user', JSON.stringify(appState.currentUser));
+                renderHeaderUserSection();
+                renderMatches();
+                alert('Successfully registered for room!');
             } else {
-                loginForm.classList.add('hidden');
-                signupForm.classList.remove('hidden');
-                tabSignup.className = "w-1/2 py-2 rounded-lg bg-gaming-pink text-white transition-all font-bold";
-                tabLogin.className = "w-1/2 py-2 rounded-lg text-gray-400 hover:text-white transition-all";
+                alert(`Room ID: ${match.roomId || 'Host will release soon'} \nPassword: ${match.roomPass || '***'}`);
             }
         }
 
+        function handleHostRoom(e) {
+            e.preventDefault();
+            if (!appState.currentUser) { openAuthModal('login'); return; }
+
+            const id = "custom-" + Date.now();
+            const newMatch = {
+                id: id,
+                code: "FF-" + Math.floor(1000 + Math.random() * 9000),
+                title: document.getElementById('h-title').value,
+                mode: document.getElementById('h-mode').value,
+                map: document.getElementById('h-map').value,
+                source: "COMMUNITY",
+                entryFee: parseInt(document.getElementById('h-fee').value),
+                prizePool: document.getElementById('h-prize').value,
+                totalSlots: 48,
+                joinedSlots: 1,
+                roomId: document.getElementById('h-roomid').value,
+                roomPass: document.getElementById('h-pass').value,
+                hostName: appState.currentUser.ign
+            };
+
+            db.ref('booyah_matches/' + id).set(newMatch).then(() => {
+                alert('Custom room created successfully!');
+                switchTab('tournaments');
+            });
+        }
+
+        function simulateWatchAd() {
+            if (!appState.currentUser) { openAuthModal('login'); return; }
+            if (!appState.currentUser.adsWatched) appState.currentUser.adsWatched = 0;
+
+            appState.currentUser.adsWatched += 1;
+            const count = appState.currentUser.adsWatched % 10;
+            const pct = count === 0 ? 100 : count * 10;
+
+            document.getElementById('ads-count-text').innerText = `${count}/10 Ads`;
+            document.getElementById('ads-progress-bar').style.width = `${pct}%`;
+
+            if (count === 0) {
+                appState.currentUser.wallet = (appState.currentUser.wallet || 500) + 100;
+                localStorage.setItem('bz_user', JSON.stringify(appState.currentUser));
+                renderHeaderUserSection();
+                alert('🎉 100 Coins (₹5) credited to your wallet!');
+            }
+        }
+
+        // AUTH LOGIC
+        function openAuthModal(mode) { switchAuthMode(mode); document.getElementById('modal-auth').classList.remove('hidden'); }
+        function switchAuthMode(mode) {
+            if (mode === 'login') {
+                document.getElementById('form-login').classList.remove('hidden');
+                document.getElementById('form-signup').classList.add('hidden');
+            } else {
+                document.getElementById('form-login').classList.add('hidden');
+                document.getElementById('form-signup').classList.remove('hidden');
+            }
+        }
         function handleSignup(e) {
             e.preventDefault();
             const ign = document.getElementById('signup-ign').value;
-            const uid = document.getElementById('signup-uid').value;
-            const mobile = document.getElementById('signup-mobile').value;
-            const password = document.getElementById('signup-password').value;
-
-            const existing = appState.usersDb.find(u => u.mobile === mobile);
-            if (existing) {
-                showToast("Mobile number already registered!");
-                return;
-            }
-
-            const newUser = { ign, uid, mobile, password, wallet: 50.00, adsWatched: 0, joinedMatchIds: [] };
-            appState.usersDb.push(newUser);
-            appState.currentUser = newUser;
-
-            localStorage.setItem('bz_users_db', JSON.stringify(appState.usersDb));
-            localStorage.setItem('bz_logged_user', JSON.stringify(newUser));
-
+            const user = { ign: ign, uid: document.getElementById('signup-uid').value, mobile: document.getElementById('signup-mobile').value, wallet: 500, joinedIds: [] };
+            appState.currentUser = user;
+            localStorage.setItem('bz_user', JSON.stringify(user));
             closeModal('modal-auth');
-            updateAuthHeader();
-            showToast("Account created successfully! ₹50 added.");
+            renderHeaderUserSection();
+            renderMatches();
         }
-
         function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-
-            const user = appState.usersDb.find(u => u.mobile === username || u.ign === username);
-            if (!user || user.password !== password) {
-                showToast("Invalid credentials! Please check.");
-                return;
-            }
-
+            const ign = document.getElementById('login-user').value;
+            const user = { ign: ign, wallet: 500, joinedIds: [] };
             appState.currentUser = user;
-            localStorage.setItem('bz_logged_user', JSON.stringify(user));
-
+            localStorage.setItem('bz_user', JSON.stringify(user));
             closeModal('modal-auth');
-            updateAuthHeader();
-            showToast("Logged in successfully!");
+            renderHeaderUserSection();
+            renderMatches();
         }
-
         function handleLogout() {
             appState.currentUser = null;
-            localStorage.removeItem('bz_logged_user');
-            updateAuthHeader();
-            showToast("Logged out successfully!");
+            localStorage.removeItem('bz_user');
+            renderHeaderUserSection();
+            renderMatches();
         }
 
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = msg;
-            t.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
+        // TAB SWITCHING
+        function switchTab(t) {
+            ['tournaments', 'create', 'earn', 'my-matches', 'leaderboard', 'my-rooms'].forEach(tab => {
+                const sec = document.getElementById(`tab-${tab}`);
+                if (sec) sec.classList.add('hidden');
+            });
+            document.getElementById(`tab-${t}`).classList.remove('hidden');
         }
+
+        function openWalletModal() { document.getElementById('modal-wallet').classList.remove('hidden'); }
+        function showWalletTab(t) {
+            document.getElementById('w-sec-add').classList.toggle('hidden', t !== 'add');
+            document.getElementById('w-sec-withdraw').classList.toggle('hidden', t !== 'withdraw');
+        }
+        function submitAddCash() { alert('Transaction submitted for verification!'); closeModal('modal-wallet'); }
+        function submitWithdraw() { alert('Withdrawal request submitted!'); closeModal('modal-wallet'); }
+        function renderJoinedMatches() {}
+        function renderMyRooms() {}
+        function setSourceFilter(s) { appState.sourceFilter = s; renderMatches(); }
+        function setModeFilter(m) { appState.modeFilter = m; renderMatches(); }
+        function searchRoomCode() { renderMatches(); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
     </script>
 </body>
 </html>
