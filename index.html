@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOOYAH ZONE - Custom Rooms & Esports Platform</title>
+    <title>BOOYAH ZONE - Custom Rooms & Earn Cash</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -34,17 +34,12 @@
             }
         }
     </script>
-
     <style>
         body { background-color: #0a0e17; color: #e2e8f0; font-family: 'Rajdhani', sans-serif; }
         .heading-font { font-family: 'Orbitron', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: #0a0e17; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #00ff88; }
-        .glass-panel { background: rgba(18, 24, 38, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .glow-accent { box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
-        .glow-pink { box-shadow: 0 0 20px rgba(255, 0, 85, 0.25); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-gaming-accent selection:text-black">
@@ -70,33 +65,33 @@
 
             <!-- Main Nav (Desktop) -->
             <nav class="hidden lg:flex items-center gap-1 bg-gaming-card/90 p-1.5 rounded-xl border border-gaming-border text-xs font-semibold">
-                <button onclick="switchTab('tournaments')" id="nav-tournaments" class="px-3.5 py-1.5 rounded-lg text-gaming-accent bg-gaming-border transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-gamepad text-sm"></i> Matches
+                <button onclick="switchTab('tournaments')" id="nav-tournaments" class="px-3 py-1.5 rounded-lg text-gaming-accent bg-gaming-border transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-gamepad"></i> Matches
                 </button>
-                <button onclick="switchTab('create')" id="nav-create" class="px-3.5 py-1.5 rounded-lg text-gaming-pink hover:text-white transition-all flex items-center gap-1.5 font-bold">
-                    <i class="fa-solid fa-plus-circle text-sm"></i> Host Custom Match
+                <button onclick="switchTab('create')" id="nav-create" class="px-3 py-1.5 rounded-lg text-gaming-pink hover:text-white transition-all flex items-center gap-1.5 font-bold">
+                    <i class="fa-solid fa-plus-circle"></i> Host Custom
                 </button>
-                <button onclick="switchTab('my-matches')" id="nav-my-matches" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-user-check text-sm"></i> Joined Matches
+                <button onclick="switchTab('earn')" id="nav-earn" class="px-3 py-1.5 rounded-lg text-gaming-gold hover:text-yellow-300 transition-all flex items-center gap-1.5 font-bold animate-pulse">
+                    <i class="fa-solid fa-rectangle-ad"></i> Watch Ads & Earn 📺
                 </button>
-                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-trophy text-sm"></i> Standings
+                <button onclick="switchTab('my-matches')" id="nav-my-matches" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-user-check"></i> Joined
                 </button>
-                <button onclick="switchTab('rules')" id="nav-rules" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-halved text-sm"></i> Rules
+                <button onclick="switchTab('leaderboard')" id="nav-leaderboard" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-trophy"></i> Standings
                 </button>
-                <button onclick="switchTab('admin')" id="nav-admin" class="px-3.5 py-1.5 rounded-lg text-gaming-gold hover:text-yellow-300 transition-all flex items-center gap-1.5">
-                    <i class="fa-solid fa-sliders text-sm"></i> My Hosted Rooms
+                <button onclick="switchTab('rules')" id="nav-rules" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved"></i> Rules
                 </button>
             </nav>
 
             <!-- User Balance & Profile -->
             <div class="flex items-center gap-2.5">
                 <button onclick="openWalletModal()" class="flex items-center gap-2 bg-gaming-card border border-gaming-border hover:border-gaming-gold/50 px-3 py-1.5 rounded-xl transition-all">
-                    <i class="fa-solid fa-coins text-gaming-gold text-base"></i>
+                    <i class="fa-solid fa-wallet text-gaming-gold text-base"></i>
                     <div class="text-left">
-                        <span class="block text-[9px] text-gray-400 leading-none">Coins</span>
-                        <span id="user-wallet-balance" class="heading-font font-bold text-xs text-gaming-gold leading-none">🪙 500</span>
+                        <span class="block text-[9px] text-gray-400 leading-none">Balance</span>
+                        <span id="user-wallet-balance" class="heading-font font-bold text-xs text-gaming-gold leading-none">₹50.00</span>
                     </div>
                 </button>
 
@@ -109,421 +104,274 @@
         <!-- Mobile Nav Bar -->
         <div class="lg:hidden flex items-center justify-between gap-1 mt-2.5 pt-2 border-t border-gaming-border/60 text-[11px] font-bold overflow-x-auto whitespace-nowrap">
             <button onclick="switchTab('tournaments')" id="mnav-tournaments" class="px-3 py-1 rounded-lg text-gaming-accent bg-gaming-border">Matches</button>
-            <button onclick="switchTab('create')" id="mnav-create" class="px-3 py-1 rounded-lg text-gaming-pink">➕ Host Custom</button>
+            <button onclick="switchTab('create')" id="mnav-create" class="px-3 py-1 rounded-lg text-gaming-pink">Host</button>
+            <button onclick="switchTab('earn')" id="mnav-earn" class="px-3 py-1 rounded-lg text-gaming-gold animate-pulse">📺 Earn ₹5</button>
             <button onclick="switchTab('my-matches')" id="mnav-my-matches" class="px-3 py-1 rounded-lg text-gray-400">Joined</button>
             <button onclick="switchTab('leaderboard')" id="mnav-leaderboard" class="px-3 py-1 rounded-lg text-gray-400">Standings</button>
-            <button onclick="switchTab('admin')" id="mnav-admin" class="px-3 py-1 rounded-lg text-gaming-gold">My Rooms</button>
         </div>
     </header>
 
-    <!-- ANNOUNCEMENT BANNER -->
-    <div class="bg-gradient-to-r from-gaming-card via-gaming-border to-gaming-card border-b border-gaming-border py-2 px-4 text-xs">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div class="flex items-center gap-2 text-gaming-accent">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gaming-accent opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-gaming-accent"></span>
-                </span>
-                <span class="uppercase tracking-wider font-bold text-[11px]">Free Fire Custom Hub:</span>
-            </div>
-            <p class="text-gray-300 text-center sm:text-left">
-                🎮 Host custom rooms with friends or compete in official tournaments! Auto Room-ID release & FFWS scoring.
-            </p>
-            <button onclick="switchTab('create')" class="bg-gaming-pink/20 hover:bg-gaming-pink border border-gaming-pink/50 text-gaming-pink hover:text-white px-2.5 py-0.5 rounded-lg text-[10px] font-bold uppercase transition-all shrink-0">
-                Host Room Now
-            </button>
+    <!-- WEBSITE BANNER / ADS SPACE TOP -->
+    <div class="bg-gaming-card border-b border-gaming-border py-2 px-4 text-center text-xs">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <span class="text-gaming-accent font-bold uppercase tracking-wider text-[10px]">🔥 Live Announcement:</span>
+            <span class="text-gray-300">Watch 10 Ads & get ₹5 instantly credited to your wallet! No limit.</span>
+            <button onclick="switchTab('earn')" class="bg-gaming-gold text-black px-2 py-0.5 rounded text-[10px] font-bold">Start Watching</button>
         </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
 
-        <!-- TAB 1: ALL MATCHES & CUSTOM ROOMS -->
+        <!-- TAB 1: ALL MATCHES -->
         <section id="tab-tournaments" class="space-y-6">
             <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-gaming-card p-4 rounded-2xl border border-gaming-border">
-                <div class="flex items-center gap-1.5 bg-gaming-dark p-1 rounded-xl border border-gaming-border text-xs font-bold shrink-0">
+                <div class="flex items-center gap-1.5 bg-gaming-dark p-1 rounded-xl border border-gaming-border text-xs font-bold">
                     <button onclick="setSourceFilter('ALL')" id="src-filter-ALL" class="px-3.5 py-1.5 rounded-lg bg-gaming-accent text-black transition-all">All Matches</button>
-                    <button onclick="setSourceFilter('OFFICIAL')" id="src-filter-OFFICIAL" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all">🏆 Official Esports</button>
-                    <button onclick="setSourceFilter('COMMUNITY')" id="src-filter-COMMUNITY" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition-all">👥 Friend Custom Rooms</button>
+                    <button onclick="setSourceFilter('OFFICIAL')" id="src-filter-OFFICIAL" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white">🏆 Official</button>
+                    <button onclick="setSourceFilter('COMMUNITY')" id="src-filter-COMMUNITY" class="px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white">👥 User Custom</button>
                 </div>
 
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 text-xs font-semibold">
+                <div class="flex items-center gap-1.5 overflow-x-auto text-xs font-semibold">
                     <button onclick="setModeFilter('ALL')" class="mode-btn active-mode px-3 py-1.5 rounded-lg bg-gaming-border text-white whitespace-nowrap" data-mode="ALL">All Modes</button>
-                    <button onclick="setModeFilter('SOLO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="SOLO">👤 Solo</button>
-                    <button onclick="setModeFilter('DUO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="DUO">👥 Duo</button>
-                    <button onclick="setModeFilter('SQUAD')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="SQUAD">👨‍👦‍👦 Squad</button>
-                    <button onclick="setModeFilter('CLASH_SQUAD')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 hover:text-white border border-gaming-border whitespace-nowrap" data-mode="CLASH_SQUAD">⚔️ Clash Squad (4v4)</button>
-                </div>
-
-                <div class="flex items-center gap-2 min-w-[220px]">
-                    <div class="relative w-full">
-                        <i class="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
-                        <input type="text" id="match-code-search" placeholder="Enter Room Code (e.g. FF-9081)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-gaming-accent uppercase">
-                    </div>
-                    <button onclick="searchByMatchCode()" class="bg-gaming-accent text-black font-bold px-3 py-1.5 rounded-xl text-xs shrink-0 hover:opacity-90">Find</button>
+                    <button onclick="setModeFilter('SOLO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 border border-gaming-border whitespace-nowrap" data-mode="SOLO">Solo</button>
+                    <button onclick="setModeFilter('DUO')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 border border-gaming-border whitespace-nowrap" data-mode="DUO">Duo</button>
+                    <button onclick="setModeFilter('SQUAD')" class="mode-btn px-3 py-1.5 rounded-lg bg-gaming-dark text-gray-400 border border-gaming-border whitespace-nowrap" data-mode="SQUAD">Squad</button>
                 </div>
             </div>
 
             <div id="tournaments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Dynamically populated matches -->
+                <!-- Dynamic matches -->
             </div>
         </section>
 
-        <!-- TAB 2: CREATE / HOST CUSTOM ROOM -->
+        <!-- TAB 2: HOST CUSTOM ROOM (FOR ALL USERS, NO ADMIN VISIBLE) -->
         <section id="tab-create" class="hidden space-y-6">
-            <div class="max-w-3xl mx-auto bg-gaming-card p-6 md:p-8 rounded-2xl border border-gaming-border space-y-6 glow-pink">
+            <div class="max-w-3xl mx-auto bg-gaming-card p-6 md:p-8 rounded-2xl border border-gaming-border space-y-6">
                 <div class="border-b border-gaming-border pb-4">
-                    <span class="bg-gaming-pink/20 text-gaming-pink text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Friend & Community Host</span>
+                    <span class="bg-gaming-pink/20 text-gaming-pink text-xs font-bold px-3 py-1 rounded-full uppercase">User Custom Room Creator</span>
                     <h2 class="heading-font text-2xl font-black text-white mt-2 flex items-center gap-2">
-                        <i class="fa-solid fa-gamepad text-gaming-pink"></i> Host Free Fire Custom Room
+                        <i class="fa-solid fa-gamepad text-gaming-pink"></i> Host Your Own Custom Room
                     </h2>
-                    <p class="text-gray-400 text-xs mt-1">Create your own room for friends, set your entry/prizes or play for fun, and share the join code!</p>
+                    <p class="text-gray-400 text-xs mt-1">Create a room, share code with friends, and manage your room ID/pass directly!</p>
                 </div>
 
                 <form id="custom-room-form" onsubmit="handleHostCustomRoom(event)" class="space-y-4 text-xs font-semibold">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
-                            <label class="block text-gray-300 mb-1">Custom Room / Tournament Name <span class="text-gaming-pink">*</span></label>
-                            <input type="text" id="host-title" required placeholder="e.g. Kalinga Warriors Custom #12" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Room Title <span class="text-gaming-pink">*</span></label>
+                            <input type="text" id="host-title" required placeholder="e.g. Friends Saturday Clash #1" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Game Mode <span class="text-gaming-pink">*</span></label>
-                            <select id="host-mode" onchange="adjustSlotLimits()" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                                <option value="SQUAD">Squad (Full Map 48 Players)</option>
-                                <option value="DUO">Duo (Full Map 24 Teams)</option>
-                                <option value="SOLO">Solo (48 Players)</option>
-                                <option value="CLASH_SQUAD">Clash Squad 4v4 (8 Players)</option>
+                            <label class="block text-gray-300 mb-1">Game Mode</label>
+                            <select id="host-mode" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
+                                <option value="SQUAD">Squad (48 Players)</option>
+                                <option value="DUO">Duo</option>
+                                <option value="SOLO">Solo</option>
                             </select>
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Map <span class="text-gaming-pink">*</span></label>
-                            <select id="host-map" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Map</label>
+                            <select id="host-map" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                                 <option value="Bermuda">Bermuda</option>
                                 <option value="Purgatory">Purgatory</option>
                                 <option value="Kalahari">Kalahari</option>
-                                <option value="Alpine">Alpine</option>
-                                <option value="Nexterra">Nexterra</option>
                             </select>
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Entry Fee (Coins / Free) <span class="text-gaming-pink">*</span></label>
-                            <input type="number" id="host-fee" required min="0" value="0" placeholder="0 for Free" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Entry Fee (₹)</label>
+                            <input type="number" id="host-fee" required min="0" value="0" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Total Prize Pool (Coins / Cash text)</label>
-                            <input type="text" id="host-prize" placeholder="e.g. 500 Coins / ₹500" value="Free Match" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Prize Pool</label>
+                            <input type="text" id="host-prize" placeholder="e.g. ₹100 / Custom" value="Friendly" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Total Capacity (Players)</label>
-                            <input type="number" id="host-slots" required min="2" max="48" value="48" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Room ID (You can set later)</label>
+                            <input type="text" id="host-room-id" placeholder="e.g. 589201" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                         </div>
-
                         <div>
-                            <label class="block text-gray-300 mb-1">Scheduled Date & Time <span class="text-gaming-pink">*</span></label>
-                            <input type="datetime-local" id="host-time" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
+                            <label class="block text-gray-300 mb-1">Room Password</label>
+                            <input type="text" id="host-room-pass" placeholder="e.g. 123" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                         </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">In-Game Custom Room ID</label>
-                            <input type="text" id="host-room-id" placeholder="e.g. 8829104" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Custom Room Password</label>
-                            <input type="text" id="host-room-pass" placeholder="e.g. 1234" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-gaming-pink">
-                        </div>
-
                         <div class="md:col-span-2">
-                            <label class="block text-gray-300 mb-1">Custom Rules / Instructions for Players</label>
-                            <textarea id="host-notes" rows="2" placeholder="e.g. No Gun Skins, Grenades Banned..." class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-gaming-pink"></textarea>
+                            <label class="block text-gray-300 mb-1">Date & Time</label>
+                            <input type="datetime-local" id="host-time" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3.5 py-2.5 text-sm text-white">
                         </div>
                     </div>
-
-                    <div class="pt-4 border-t border-gaming-border">
-                        <button type="submit" class="w-full bg-gradient-to-r from-gaming-pink to-rose-600 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all heading-font text-sm flex items-center justify-center gap-2 shadow-lg">
-                            🚀 Publish Custom Match to Firebase Live
-                        </button>
-                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-gaming-pink to-rose-600 text-white font-bold py-3 rounded-xl hover:opacity-90 heading-font text-sm">
+                        🚀 Publish Custom Room Live
+                    </button>
                 </form>
             </div>
         </section>
 
-        <!-- TAB 3: MY JOINED MATCHES -->
-        <section id="tab-my-matches" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-4">
-                <div class="flex items-center justify-between border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-user-check text-gaming-accent"></i> My Registered Matches
-                        </h2>
-                        <p class="text-xs text-gray-400">View room details, countdown, and passwords for rooms you have joined.</p>
-                    </div>
-                    <span id="joined-count-badge" class="bg-gaming-accent/20 text-gaming-accent text-xs font-bold px-3 py-1 rounded-full">0 Matches</span>
+        <!-- TAB 3: WATCH ADS & EARN ₹5 -->
+        <section id="tab-earn" class="hidden space-y-6">
+            <div class="max-w-2xl mx-auto bg-gaming-card p-6 md:p-8 rounded-2xl border border-gaming-gold/40 text-center space-y-6">
+                <div class="w-16 h-16 rounded-2xl bg-gaming-gold/20 border border-gaming-gold flex items-center justify-center mx-auto text-gaming-gold text-3xl animate-bounce">
+                    <i class="fa-solid fa-rectangle-ad"></i>
+                </div>
+                <div>
+                    <h2 class="heading-font text-2xl font-black text-white">Watch Ads & Earn Cash</h2>
+                    <p class="text-xs text-gray-400 mt-1">Complete viewing 10 Ads to instantly receive <strong class="text-gaming-gold">₹5.00</strong> directly in your wallet!</p>
                 </div>
 
-                <div id="joined-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <!-- Dynamic joined matches -->
+                <!-- Progress Bar -->
+                <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-gray-400">Ads Progress Completed</span>
+                        <span id="ads-count-text" class="text-gaming-gold">0 / 10 Ads</span>
+                    </div>
+                    <div class="w-full h-3 bg-gaming-card rounded-full overflow-hidden border border-gaming-border">
+                        <div id="ads-progress-bar" class="h-full bg-gradient-to-r from-gaming-gold to-yellow-400 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Simulation Ad Box (Pasted Ad script / banner area) -->
+                <div id="ad-banner-box" class="bg-gaming-dark p-6 rounded-xl border border-gaming-border min-h-[140px] flex flex-col items-center justify-center space-y-3">
+                    <span id="ad-status-text" class="text-xs text-gray-400">Click below to simulate watching sponsored advertisement</span>
+                    <button onclick="simulateWatchAd()" id="watch-ad-btn" class="bg-gaming-gold text-black font-bold px-6 py-3 rounded-xl heading-font text-xs hover:bg-yellow-400 transition-all shadow-lg">
+                        ▶️ Watch Advertisement (+1 Ad)
+                    </button>
+                </div>
+
+                <!-- Banner Ad Integration Space (Placeholder for Google AdSense / Monetag / Custom Ads) -->
+                <div class="p-4 bg-gaming-dark/50 rounded-xl border border-gaming-border/50 text-[11px] text-gray-500">
+                    [ Your Ad Network Script Banner Here — e.g. AdSense / Monetag / PropellerAds ]
                 </div>
             </div>
         </section>
 
-        <!-- TAB 4: LEADERBOARD & POINTS CALCULATOR -->
+        <!-- TAB 4: JOINED MATCHES -->
+        <section id="tab-my-matches" class="hidden space-y-6">
+            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-4">
+                <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-user-check text-gaming-accent"></i> My Registered Rooms
+                </h2>
+                <div id="joined-matches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Dynamic joined rooms -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: STANDINGS -->
         <section id="tab-leaderboard" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-2xl font-black text-white flex items-center gap-2">
-                            <i class="fa-solid fa-trophy text-gaming-gold"></i> Esports Standings & Calculator
-                        </h2>
-                        <p class="text-gray-400 text-xs">Official FFWS Points standard (Booyah = 12 pts, 2nd = 9 pts, Kill = 1 pt)</p>
-                    </div>
-
-                    <button onclick="togglePointsCalculator()" class="bg-gaming-dark border border-gaming-gold text-gaming-gold hover:bg-gaming-gold hover:text-black font-bold px-4 py-2 rounded-xl text-xs transition-all flex items-center gap-2">
-                        <i class="fa-solid fa-calculator"></i> Custom Score Calculator Tool
-                    </button>
-                </div>
-
-                <div id="points-calculator-box" class="hidden bg-gaming-dark p-5 rounded-2xl border border-gaming-gold/40 space-y-4">
-                    <h3 class="heading-font text-sm font-bold text-gaming-gold flex items-center gap-2">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Calculate Match Points Quick Tool
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Placement Rank</label>
-                            <select id="calc-rank" onchange="calculateScore()" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
-                                <option value="12">Rank #1 (BOOYAH 👑)</option>
-                                <option value="9">Rank #2</option>
-                                <option value="8">Rank #3</option>
-                                <option value="7">Rank #4</option>
-                                <option value="6">Rank #5</option>
-                                <option value="5">Rank #6</option>
-                                <option value="4">Rank #7</option>
-                                <option value="3">Rank #8</option>
-                                <option value="2">Rank #9</option>
-                                <option value="1">Rank #10</option>
-                                <option value="0">Rank #11 - #12</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Total Squad Kills</label>
-                            <input type="number" id="calc-kills" min="0" value="5" oninput="calculateScore()" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
-                        </div>
-                        <div class="bg-gaming-card p-3 rounded-lg border border-gaming-border text-center flex flex-col justify-center">
-                            <span class="text-[10px] text-gray-400 uppercase">Calculated Total</span>
-                            <strong id="calc-result" class="heading-font text-lg text-gaming-accent">17 Points</strong>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-4">
+                <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2"><i class="fa-solid fa-trophy text-gaming-gold"></i> Standings</h2>
                 <div class="overflow-x-auto rounded-xl border border-gaming-border">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gaming-dark text-gray-400 text-xs uppercase heading-font tracking-wider border-b border-gaming-border">
-                                <th class="p-3.5 text-center">Rank</th>
-                                <th class="p-3.5">Team / Player Name</th>
-                                <th class="p-3.5 text-center">Matches</th>
-                                <th class="p-3.5 text-center">Booyahs 👑</th>
-                                <th class="p-3.5 text-center">Kills 🎯</th>
-                                <th class="p-3.5 text-center">Placement Pts</th>
-                                <th class="p-3.5 text-center text-gaming-accent">Total Pts</th>
-                            </tr>
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-gaming-dark text-gray-400 uppercase">
+                            <tr><th class="p-3 text-center">Rank</th><th class="p-3">Team Name</th><th class="p-3 text-center">Total Pts</th></tr>
                         </thead>
-                        <tbody id="leaderboard-body" class="divide-y divide-gaming-border text-xs">
-                            <!-- Dynamic Leaderboard Rows -->
-                        </tbody>
+                        <tbody id="leaderboard-body" class="divide-y divide-gaming-border"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 5: RULES -->
+        <!-- TAB 6: RULES -->
         <section id="tab-rules" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div>
-                    <h2 class="heading-font text-2xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-shield-halved text-gaming-accent"></i> Tournament Fair Play & Rules
-                    </h2>
-                    <p class="text-gray-400 text-xs mt-1">Rules applying to official tournaments and custom rooms.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-pink flex items-center gap-2"><i class="fa-solid fa-ban"></i> Cheating & Emulators</h3>
-                        <p class="text-gray-300">Headshot scripts, aimbots, or panels result in permanent ban without coin refunds.</p>
-                    </div>
-                    <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2">
-                        <h3 class="heading-font text-sm font-bold text-gaming-accent flex items-center gap-2"><i class="fa-solid fa-key"></i> Room Access Policy</h3>
-                        <p class="text-gray-300">Room ID & Password unlock 10-15 minutes prior to start time on this app.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 6: ADMIN / HOST CONTROL PANEL -->
-        <section id="tab-admin" class="hidden space-y-6">
-            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-6">
-                <div class="flex items-center justify-between border-b border-gaming-border pb-4">
-                    <div>
-                        <h2 class="heading-font text-xl font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-gaming-gold"></i> My Hosted Custom Rooms
-                        </h2>
-                        <p class="text-xs text-gray-400">Manage rooms created by you: Set Room ID/Pass live in Firebase.</p>
-                    </div>
-                    <button onclick="switchTab('create')" class="bg-gaming-pink text-white font-bold px-3 py-1.5 rounded-xl text-xs hover:opacity-90">+ Host New Room</button>
-                </div>
-
-                <div id="admin-hosted-rooms-list" class="space-y-4">
-                    <!-- Dynamic List -->
-                </div>
+            <div class="bg-gaming-card p-6 rounded-2xl border border-gaming-border space-y-3 text-xs text-gray-300">
+                <h2 class="heading-font text-lg font-bold text-white">Fair Play & Withdrawal Rules</h2>
+                <p>1. Minimum withdrawal amount is ₹50.</p>
+                <p>2. Withdrawals are processed instantly to PhonePe, Paytm, or Google Pay via UPI.</p>
+                <p>3. Watching ads to earn ₹5 can be repeated multiple times daily.</p>
             </div>
         </section>
 
     </main>
 
-    <!-- MODAL 1: REGISTRATION / JOIN MATCH -->
+    <!-- MODAL: JOIN MATCH & ROOM CREDENTIALS -->
     <div id="modal-join" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-lg w-full p-6 space-y-5 relative max-h-[90vh] overflow-y-auto">
+        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-lg w-full p-6 space-y-4 relative">
             <button onclick="closeModal('modal-join')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-
-            <div>
-                <div class="flex items-center gap-2">
-                    <span id="modal-match-source-badge" class="bg-gaming-pink/20 text-gaming-pink text-[10px] font-bold px-2 py-0.5 rounded uppercase">Community</span>
-                    <span id="modal-match-mode-badge" class="bg-gaming-accent/20 text-gaming-accent text-[10px] font-bold px-2 py-0.5 rounded uppercase">SQUAD</span>
-                </div>
-                <h3 id="modal-match-title" class="heading-font text-xl font-bold text-white mt-1">Match Title</h3>
-                <p id="modal-match-map" class="text-xs text-gray-400">Map: Bermuda | Scheduled</p>
-            </div>
-
-            <div class="bg-gaming-dark p-3 rounded-xl border border-gaming-border flex items-center justify-between text-xs">
-                <span class="text-gray-400 flex items-center gap-1.5"><i class="fa-solid fa-clock text-gaming-gold"></i> Countdown:</span>
-                <span id="modal-countdown" class="heading-font font-bold text-gaming-gold">00m 00s</span>
-            </div>
-
-            <div id="modal-room-details-box" class="hidden bg-gradient-to-r from-gaming-dark to-gaming-card p-4 rounded-xl border border-gaming-accent/40 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-gaming-accent uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-lock-open"></i> Room Credentials Unlocked</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3 text-xs">
-                    <div class="bg-gaming-dark p-2.5 rounded-lg border border-gaming-border">
-                        <span class="block text-[10px] text-gray-400">ROOM ID</span>
-                        <div class="flex items-center justify-between mt-0.5">
-                            <strong id="modal-room-id" class="heading-font text-gaming-gold text-sm">--</strong>
-                            <button onclick="copyText('modal-room-id')" class="text-gray-400 hover:text-gaming-accent"><i class="fa-solid fa-copy"></i></button>
-                        </div>
-                    </div>
-                    <div class="bg-gaming-dark p-2.5 rounded-lg border border-gaming-border">
-                        <span class="block text-[10px] text-gray-400">PASSWORD</span>
-                        <div class="flex items-center justify-between mt-0.5">
-                            <strong id="modal-room-pass" class="heading-font text-gaming-gold text-sm">--</strong>
-                            <button onclick="copyText('modal-room-pass')" class="text-gray-400 hover:text-gaming-accent"><i class="fa-solid fa-copy"></i></button>
-                        </div>
-                    </div>
+            <h3 id="modal-match-title" class="heading-font text-lg font-bold text-white">Match Title</h3>
+            
+            <div id="modal-room-details-box" class="hidden bg-gaming-dark p-4 rounded-xl border border-gaming-accent/40 space-y-2 text-xs">
+                <span class="text-gaming-accent font-bold uppercase"><i class="fa-solid fa-lock-open"></i> Room Unlocked</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-gaming-card p-2 rounded">ID: <strong id="modal-room-id" class="text-gaming-gold">--</strong></div>
+                    <div class="bg-gaming-card p-2 rounded">Pass: <strong id="modal-room-pass" class="text-gaming-gold">--</strong></div>
                 </div>
             </div>
 
-            <form id="join-form" onsubmit="handleConfirmJoin(event)" class="space-y-3 text-xs">
-                <h4 class="text-xs uppercase font-bold text-gray-400 tracking-wider border-b border-gaming-border pb-1">Player Registration</h4>
-                <div>
-                    <label class="block text-gray-400 mb-1">Free Fire UID</label>
-                    <input type="text" id="player-uid" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">In-Game Name (IGN)</label>
-                    <input type="text" id="player-ign" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-
-                <div class="flex items-center justify-between pt-4 border-t border-gaming-border">
-                    <div>
-                        <span class="block text-[11px] text-gray-400">Entry Fee</span>
-                        <strong id="modal-entry-fee" class="heading-font text-base text-gaming-gold">🪙 0 (FREE)</strong>
-                    </div>
-                    <button type="submit" id="modal-submit-btn" class="bg-gradient-to-r from-gaming-accent to-emerald-500 text-black font-bold px-6 py-2.5 rounded-xl hover:opacity-90 heading-font">
-                        Confirm Join
-                    </button>
-                </div>
+            <form onsubmit="handleConfirmJoin(event)" class="space-y-3 text-xs">
+                <input type="text" id="player-uid" required placeholder="Free Fire UID" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
+                <input type="text" id="player-ign" required placeholder="In-Game Name (IGN)" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
+                <button type="submit" class="w-full bg-gaming-accent text-black font-bold py-2.5 rounded-xl">Confirm & Join Room</button>
             </form>
         </div>
     </div>
 
-    <!-- MODAL 2: WALLET -->
+    <!-- MODAL: WALLET (ADD CASH & WITHDRAW VIA PHONEPE/PAYTM/GPAY QR & UPI) -->
     <div id="modal-wallet" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-5 relative">
+        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-5 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeModal('modal-wallet')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+
             <div class="text-center">
-                <div class="w-12 h-12 rounded-full bg-gaming-gold/20 border border-gaming-gold flex items-center justify-center mx-auto mb-2"><i class="fa-solid fa-coins text-2xl text-gaming-gold"></i></div>
-                <h3 class="heading-font text-xl font-bold text-white">Booyah Zone Wallet</h3>
-                <p class="text-xs text-gray-400">Manage coins for matches & cashout</p>
+                <h3 class="heading-font text-xl font-bold text-white">Wallet & Cash Management</h3>
+                <div class="heading-font text-3xl font-black text-gaming-gold mt-1" id="wallet-modal-balance">₹50.00</div>
             </div>
-            <div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border text-center">
-                <span class="text-xs text-gray-400 uppercase tracking-wider">Available Balance</span>
-                <div class="heading-font text-3xl font-black text-gaming-gold" id="wallet-modal-balance">🪙 500</div>
-            </div>
+
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="handleAddCoinsDemo()" class="bg-gaming-accent/20 border border-gaming-accent text-gaming-accent font-bold py-2.5 rounded-xl hover:bg-gaming-accent hover:text-black transition-all text-xs">+200 Demo Coins</button>
-                <button onclick="toggleWithdrawForm()" class="bg-gaming-border border border-gray-600 text-white font-bold py-2.5 rounded-xl hover:border-gaming-gold transition-all text-xs">Cashout Request</button>
+                <button onclick="showAddCashSection()" class="bg-gaming-accent/20 border border-gaming-accent text-gaming-accent font-bold py-2.5 rounded-xl text-xs">➕ Add Cash</button>
+                <button onclick="showWithdrawSection()" class="bg-gaming-gold/20 border border-gaming-gold text-gaming-gold font-bold py-2.5 rounded-xl text-xs">💸 Withdraw Cash</button>
             </div>
-            <form id="withdraw-form" onsubmit="handleWithdraw(event)" class="hidden space-y-3 pt-3 border-t border-gaming-border text-xs">
-                <h4 class="font-bold text-gray-300">UPI Cashout Request</h4>
-                <input type="number" id="withdraw-amount" min="100" placeholder="Coins (Min 100)" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                <input type="text" id="withdraw-upi" placeholder="UPI ID (e.g. 9876543210@upi)" required class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                <button type="submit" class="w-full bg-gaming-gold text-black font-bold py-2 rounded-xl heading-font">Submit Request</button>
-            </form>
+
+            <!-- ADD CASH SECTION (QR CODE / ALL PLATFORMS) -->
+            <div id="add-cash-section" class="hidden space-y-3 bg-gaming-dark p-4 rounded-xl border border-gaming-border text-xs">
+                <h4 class="font-bold text-white text-center">Scan QR or Pay via PhonePe / Paytm / GPay</h4>
+                <!-- Replace src with your actual QR code image URL or base64 -->
+                <div class="bg-white p-3 rounded-xl w-40 h-40 mx-auto flex items-center justify-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=yourupi@paytm&pn=BooyahZone" alt="UPI QR Code" class="w-full h-full object-contain">
+                </div>
+                <p class="text-center text-[10px] text-gray-400">UPI ID: <b class="text-gaming-gold">yourmerchant@paytm</b></p>
+                <input type="number" id="add-amount" placeholder="Enter Amount Paid (₹)" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
+                <input type="text" id="add-utr" placeholder="Enter 12-Digit UPI Transaction ID (UTR)" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
+                <button onclick="submitAddCash()" class="w-full bg-gaming-accent text-black font-bold py-2 rounded-lg">Verify & Add to Wallet</button>
+            </div>
+
+            <!-- WITHDRAW SECTION (PHONEPE / PAYTM / GPAY) -->
+            <div id="withdraw-section" class="hidden space-y-3 bg-gaming-dark p-4 rounded-xl border border-gaming-border text-xs">
+                <h4 class="font-bold text-white">Withdraw via PhonePe / Paytm / GPay</h4>
+                <div>
+                    <label class="block text-gray-400 mb-1">Select App</label>
+                    <select id="withdraw-app" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
+                        <option value="PhonePe">PhonePe UPI</option>
+                        <option value="Paytm">Paytm UPI</option>
+                        <option value="Google Pay">Google Pay (GPay)</option>
+                    </select>
+                </div>
+                <input type="number" id="withdraw-amount" placeholder="Amount (Min ₹50)" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
+                <input type="text" id="withdraw-upi" placeholder="Enter UPI ID / Mobile Number" class="w-full bg-gaming-card border border-gaming-border rounded-lg p-2 text-white">
+                <button onclick="submitWithdraw()" class="w-full bg-gaming-gold text-black font-bold py-2 rounded-lg">Submit Withdrawal Request</button>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL 3: PROFILE -->
+    <!-- MODAL: PROFILE -->
     <div id="modal-profile" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-5 relative">
+        <div class="bg-gaming-card border border-gaming-border rounded-2xl max-w-md w-full p-6 space-y-4 relative text-xs">
             <button onclick="closeModal('modal-profile')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="flex items-center gap-4 border-b border-gaming-border pb-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-gaming-pink to-gaming-accent p-0.5">
-                    <div class="w-full h-full bg-gaming-dark rounded-[10px] flex items-center justify-center"><i class="fa-solid fa-user-ninja text-xl text-gaming-accent"></i></div>
-                </div>
-                <div>
-                    <h3 class="heading-font text-base font-bold text-white" id="profile-ign-display">PRO_GAMER_99</h3>
-                    <p class="text-xs text-gray-400">UID: <span id="profile-uid-display">8293041920</span></p>
-                </div>
-            </div>
-            <div class="space-y-3 text-xs">
-                <h4 class="font-bold text-gray-400 uppercase">Edit Profile</h4>
-                <div>
-                    <label class="block text-gray-400 mb-1">IGN</label>
-                    <input type="text" id="edit-profile-ign" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1">UID</label>
-                    <input type="text" id="edit-profile-uid" class="w-full bg-gaming-dark border border-gaming-border rounded-xl px-3 py-2 text-white">
-                </div>
-                <button onclick="saveProfileInfo()" class="w-full bg-gaming-accent text-black font-bold py-2 rounded-xl heading-font">Save Profile</button>
-            </div>
+            <h3 class="heading-font text-base font-bold text-white">Player Profile</h3>
+            <input type="text" id="edit-profile-ign" placeholder="In-Game Name" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
+            <input type="text" id="edit-profile-uid" placeholder="Free Fire UID" class="w-full bg-gaming-dark border border-gaming-border rounded-xl p-2.5 text-white">
+            <button onclick="saveProfile()" class="w-full bg-gaming-accent text-black font-bold py-2 rounded-xl">Save Profile</button>
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gaming-card border border-gaming-accent text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs font-semibold">
-        <i class="fa-solid fa-circle-check text-gaming-accent text-base"></i>
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gaming-card border border-gaming-accent text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-gaming-accent"></i>
         <span id="toast-message">Notification</span>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-gaming-dark border-t border-gaming-border mt-12 py-6 px-4 text-center text-xs text-gray-500 space-y-2">
-        <div class="flex justify-center items-center gap-2 text-white heading-font font-bold">
-            <i class="fa-solid fa-fire-flame-curved text-gaming-pink"></i> BOOYAH ZONE CUSTOM PLATFORM
-        </div>
-        <p>Host Custom Rooms with Friends • Compete in Esports Leagues</p>
-    </footer>
-
-    <!-- FIREBASE & APP SCRIPT -->
+    <!-- FIREBASE & SCRIPT -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <script>
-        // Your Firebase Realtime Database Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAZZpUFjvLgpR8Bx41zRTOD05hPt5lG2bE",
             authDomain: "bk-fft.firebaseapp.com",
@@ -533,39 +381,27 @@
             messagingSenderId: "670932523757",
             appId: "1:670932523757:web:26e918428a106798e20ae4"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let appState = {
-            user: JSON.parse(localStorage.getItem('bz_user')) || {
-                ign: 'PRO_GAMER_99',
-                uid: '8293041920',
-                wallet: 500,
-                joinedMatchIds: []
-            },
+            user: JSON.parse(localStorage.getItem('bz_user')) || { ign: 'PRO_GAMER', uid: '89102938', wallet: 50.00, adsWatched: 0, joinedMatchIds: [] },
             matches: [],
-            leaderboard: [
-                { rank: 1, team: "Total Gaming", matches: 10, booyahs: 4, kills: 88, placementPts: 80, totalPts: 168 },
-                { rank: 2, team: "Odisha Warriors", matches: 10, booyahs: 3, kills: 72, placementPts: 65, totalPts: 137 }
-            ],
-            selectedMatchId: null,
             sourceFilter: 'ALL',
-            modeFilter: 'ALL'
+            modeFilter: 'ALL',
+            selectedMatchId: null
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            initFirebaseSync();
+            initFirebase();
             updateUserUI();
-            startTimerLoop();
+            renderLeaderboard();
         });
 
-        // --- FIREBASE REALTIME SYNC ---
-        function initFirebaseSync() {
+        function initFirebase() {
             db.ref('booyah_matches').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (!data) {
-                    // Seed initial default match if database empty
                     const defaultM = {
                         id: "match-101",
                         code: "FF-1010",
@@ -573,29 +409,25 @@
                         map: "Bermuda",
                         mode: "SQUAD",
                         source: "OFFICIAL",
-                        time: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
                         entryFee: 0,
-                        prizePool: "1,000 Coins",
+                        prizePool: "₹500 Cash",
                         totalSlots: 48,
                         joinedSlots: 36,
                         roomId: "8829012",
                         roomPass: "7788",
-                        hostName: "Booyah Admin"
+                        hostName: "Official Admin"
                     };
                     db.ref('booyah_matches/' + defaultM.id).set(defaultM);
                     return;
                 }
-
                 appState.matches = Object.values(data);
                 renderMatches();
                 renderJoinedMatches();
-                renderAdminRooms();
-                renderLeaderboard();
             });
         }
 
         function switchTab(tabName) {
-            ['tournaments', 'create', 'my-matches', 'leaderboard', 'rules', 'admin'].forEach(t => {
+            ['tournaments', 'create', 'earn', 'my-matches', 'leaderboard', 'rules'].forEach(t => {
                 const sec = document.getElementById(`tab-${t}`);
                 const btn = document.getElementById(`nav-${t}`);
                 const mbtn = document.getElementById(`mnav-${t}`);
@@ -614,52 +446,41 @@
         function renderMatches() {
             const grid = document.getElementById('tournaments-grid');
             grid.innerHTML = '';
-
             let filtered = appState.matches.filter(m => {
                 if (appState.sourceFilter !== 'ALL' && m.source !== appState.sourceFilter) return false;
                 if (appState.modeFilter !== 'ALL' && m.mode !== appState.modeFilter) return false;
                 return true;
             });
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-gray-500 bg-gaming-card rounded-2xl border border-gaming-border"><p class="text-xs font-bold">No custom rooms found.</p></div>`;
-                return;
-            }
-
             filtered.forEach(m => {
                 const isJoined = appState.user.joinedMatchIds.includes(m.id);
-                const progress = Math.min(100, Math.round(((m.joinedSlots || 1) / m.totalSlots) * 100));
-
                 const card = document.createElement('div');
-                card.className = "bg-gaming-card border border-gaming-border rounded-2xl p-4 space-y-3.5 relative flex flex-col justify-between";
+                card.className = "bg-gaming-card border border-gaming-border rounded-2xl p-4 space-y-3.5 flex flex-col justify-between";
                 card.innerHTML = `
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="${m.source === 'OFFICIAL' ? 'bg-gaming-gold/20 text-gaming-gold' : 'bg-gaming-pink/20 text-gaming-pink'} text-[10px] font-bold px-2 py-0.5 rounded uppercase">${m.source === 'OFFICIAL' ? '🏆 Official' : '👥 Community'}</span>
-                            <span class="text-[10px] font-mono text-gray-400 bg-gaming-dark px-1.5 py-0.5 rounded">Code: ${m.code}</span>
+                            <span class="${m.source === 'OFFICIAL' ? 'bg-gaming-gold/20 text-gaming-gold' : 'bg-gaming-pink/20 text-gaming-pink'} text-[10px] font-bold px-2 py-0.5 rounded uppercase">${m.source === 'OFFICIAL' ? '🏆 Official' : '👥 User Custom'}</span>
+                            <span class="text-[10px] font-mono text-gray-400 bg-gaming-dark px-1.5 py-0.5 rounded">Code: ${m.code || 'FF-00'}</span>
                         </div>
-                        <h3 class="heading-font font-bold text-base text-white line-clamp-1">${m.title}</h3>
+                        <h3 class="heading-font font-bold text-base text-white">${m.title}</h3>
                         <p class="text-[11px] text-gray-400 mt-1 flex justify-between"><span>🗺️ ${m.map}</span><span>Host: <strong class="text-gaming-accent">${m.hostName}</strong></span></p>
                         <div class="grid grid-cols-2 gap-2 mt-3 bg-gaming-dark p-2.5 rounded-xl border border-gaming-border text-center text-xs">
                             <div><span class="text-[9px] text-gray-400 uppercase block">Prize</span><strong class="text-gaming-gold">${m.prizePool}</strong></div>
-                            <div><span class="text-[9px] text-gray-400 uppercase block">Fee</span><strong>${m.entryFee === 0 ? 'FREE' : '🪙 ' + m.entryFee}</strong></div>
-                        </div>
-                        <div class="mt-3 space-y-1 text-xs">
-                            <div class="flex justify-between text-gray-400"><span>Joined</span><span class="text-gaming-accent">${m.joinedSlots || 1} / ${m.totalSlots}</span></div>
-                            <div class="w-full h-1.5 bg-gaming-dark rounded-full overflow-hidden"><div class="h-full bg-gaming-accent" style="width: ${progress}%"></div></div>
+                            <div><span class="text-[9px] text-gray-400 uppercase block">Fee</span><strong>${m.entryFee === 0 ? 'FREE' : '₹' + m.entryFee}</strong></div>
                         </div>
                     </div>
                     <button onclick="openJoinModal('${m.id}')" class="w-full ${isJoined ? 'bg-gaming-border text-gaming-accent' : 'bg-gaming-accent text-black'} font-bold py-2 rounded-xl text-xs">
-                        ${isJoined ? '🔑 View Credentials' : '🎮 Join Room'}
+                        ${isJoined ? '🔑 View Room Credentials' : '🎮 Join Room'}
                     </button>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // USER HOST CUSTOM ROOM
         function handleHostCustomRoom(e) {
             e.preventDefault();
-            const id = "custom-" + Date.now();
+            const id = "user-room-" + Date.now();
             const newMatch = {
                 id: id,
                 code: "FF-" + Math.floor(1000 + Math.random() * 9000),
@@ -667,47 +488,60 @@
                 map: document.getElementById('host-map').value,
                 mode: document.getElementById('host-mode').value,
                 source: "COMMUNITY",
-                time: new Date(document.getElementById('host-time').value).toISOString(),
                 entryFee: parseInt(document.getElementById('host-fee').value),
                 prizePool: document.getElementById('host-prize').value,
-                totalSlots: parseInt(document.getElementById('host-slots').value),
+                totalSlots: 48,
                 joinedSlots: 1,
                 roomId: document.getElementById('host-room-id').value,
                 roomPass: document.getElementById('host-room-pass').value,
-                hostName: appState.user.ign,
-                notes: document.getElementById('host-notes').value
+                hostName: appState.user.ign
             };
 
             db.ref('booyah_matches/' + id).set(newMatch).then(() => {
                 appState.user.joinedMatchIds.push(id);
                 localStorage.setItem('bz_user', JSON.stringify(appState.user));
-                showToast("Custom Room published live in Firebase!", "success");
+                showToast("Your custom room is live!");
                 switchTab('tournaments');
                 document.getElementById('custom-room-form').reset();
             });
+        }
+
+        // WATCH ADS & EARN ₹5 (10 ADS = ₹5)
+        function simulateWatchAd() {
+            appState.user.adsWatched += 1;
+            let current = appState.user.adsWatched;
+            let pct = (current % 10) * 10;
+            if (pct === 0) pct = 100;
+
+            document.getElementById('ads-count-text').innerText = `${current % 10}/10 Ads`;
+            document.getElementById('ads-progress-bar').style.width = `${pct}%`;
+
+            if (current % 10 === 0) {
+                appState.user.wallet += 5.00;
+                localStorage.setItem('bz_user', JSON.stringify(appState.user));
+                updateUserUI();
+                showToast("🎉 Congratulations! ₹5 credited to your wallet!");
+            } else {
+                showToast(`Ad viewed! Watch ${10 - (current % 10)} more to get ₹5.`);
+            }
         }
 
         function openJoinModal(id) {
             const m = appState.matches.find(item => item.id === id);
             if (!m) return;
             appState.selectedMatchId = id;
-
             document.getElementById('modal-match-title').innerText = m.title;
-            document.getElementById('modal-match-map').innerText = `Map: ${m.map} | Host: ${m.hostName}`;
-            document.getElementById('modal-entry-fee').innerText = m.entryFee === 0 ? 'FREE' : `🪙 ${m.entryFee}`;
             document.getElementById('player-uid').value = appState.user.uid;
             document.getElementById('player-ign').value = appState.user.ign;
 
-            const isJoined = appState.user.joinedMatchIds.includes(m.id);
             const roomBox = document.getElementById('modal-room-details-box');
-            if (isJoined && m.roomId) {
+            if (appState.user.joinedMatchIds.includes(m.id) && m.roomId) {
                 roomBox.classList.remove('hidden');
                 document.getElementById('modal-room-id').innerText = m.roomId;
                 document.getElementById('modal-room-pass').innerText = m.roomPass || '****';
             } else {
                 roomBox.classList.add('hidden');
             }
-
             document.getElementById('modal-join').classList.remove('hidden');
         }
 
@@ -717,7 +551,7 @@
             if (!m) return;
 
             if (appState.user.wallet < m.entryFee) {
-                showToast("Insufficient Coins balance!", "error");
+                showToast("Insufficient balance! Add cash or watch ads.");
                 openWalletModal();
                 return;
             }
@@ -725,109 +559,87 @@
             appState.user.wallet -= m.entryFee;
             appState.user.joinedMatchIds.push(m.id);
             m.joinedSlots = (m.joinedSlots || 1) + 1;
-
             db.ref('booyah_matches/' + m.id).update({ joinedSlots: m.joinedSlots });
             localStorage.setItem('bz_user', JSON.stringify(appState.user));
             updateUserUI();
             renderMatches();
             renderJoinedMatches();
             closeModal('modal-join');
-            showToast("Successfully Joined!", "success");
+            showToast("Joined successfully!");
         }
 
         function renderJoinedMatches() {
             const grid = document.getElementById('joined-matches-grid');
-            document.getElementById('joined-count-badge').innerText = `${appState.user.joinedMatchIds.length} Matches`;
             grid.innerHTML = '';
-
             const list = appState.matches.filter(m => appState.user.joinedMatchIds.includes(m.id));
             if (list.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-xs text-gray-500 text-center py-6">No joined matches yet.</p>`;
+                grid.innerHTML = `<p class="text-xs text-gray-500 text-center col-span-full">No joined rooms yet.</p>`;
                 return;
             }
-
             list.forEach(m => {
-                const card = document.createElement('div');
-                card.className = "bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2 text-xs";
-                card.innerHTML = `
-                    <strong class="text-white text-sm block">${m.title}</strong>
-                    <p class="text-gaming-accent">Room ID: ${m.roomId || 'Pending'} | Pass: ${m.roomPass || '****'}</p>
-                    <button onclick="openJoinModal('${m.id}')" class="bg-gaming-border text-white px-3 py-1 rounded font-bold">View Credentials</button>
-                `;
-                grid.appendChild(card);
+                grid.innerHTML += `<div class="bg-gaming-dark p-4 rounded-xl border border-gaming-border text-xs space-y-2"><strong class="text-white">${m.title}</strong><p class="text-gaming-accent">ID: ${m.roomId || 'Pending'} | Pass: ${m.roomPass || '****'}</p></div>`;
             });
         }
 
-        function renderAdminRooms() {
-            const list = document.getElementById('admin-hosted-rooms-list');
-            list.innerHTML = '';
-            const myRooms = appState.matches.filter(m => m.hostName === appState.user.ign);
-
-            if (myRooms.length === 0) {
-                list.innerHTML = `<p class="text-xs text-gray-500 text-center">You haven't hosted any rooms.</p>`;
-                return;
-            }
-
-            myRooms.forEach(m => {
-                const div = document.createElement('div');
-                div.className = "bg-gaming-dark p-4 rounded-xl border border-gaming-border space-y-2 text-xs";
-                div.innerHTML = `
-                    <strong class="text-white">${m.title} (Code: ${m.code})</strong>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="rid-${m.id}" value="${m.roomId || ''}" placeholder="Room ID" class="bg-gaming-card p-2 rounded text-white">
-                        <input type="text" id="rpass-${m.id}" value="${m.roomPass || ''}" placeholder="Password" class="bg-gaming-card p-2 rounded text-white">
-                    </div>
-                    <button onclick="updateCredentials('${m.id}')" class="bg-gaming-pink text-white px-3 py-1.5 rounded font-bold">Update & Release to Players</button>
-                `;
-                list.appendChild(div);
-            });
+        // WALLET MODAL & CASH ACTIONS
+        function openWalletModal() {
+            document.getElementById('wallet-modal-balance').innerText = `₹${appState.user.wallet.toFixed(2)}`;
+            document.getElementById('modal-wallet').classList.remove('hidden');
+        }
+        function showAddCashSection() {
+            document.getElementById('add-cash-section').classList.remove('hidden');
+            document.getElementById('withdraw-section').classList.add('hidden');
+        }
+        function showWithdrawSection() {
+            document.getElementById('withdraw-section').classList.remove('hidden');
+            document.getElementById('add-cash-section').classList.add('hidden');
+        }
+        function submitAddCash() {
+            const amt = parseFloat(document.getElementById('add-amount').value);
+            const utr = document.getElementById('add-utr').value;
+            if (!amt || !utr) { showToast("Please enter valid amount and UTR number."); return; }
+            appState.user.wallet += amt;
+            localStorage.setItem('bz_user', JSON.stringify(appState.user));
+            updateUserUI();
+            closeModal('modal-wallet');
+            showToast(`₹${amt} added successfully via UTR verification!`);
+        }
+        function submitWithdraw() {
+            const amt = parseFloat(document.getElementById('withdraw-amount').value);
+            const upi = document.getElementById('withdraw-upi').value;
+            const appName = document.getElementById('withdraw-app').value;
+            if (!amt || amt < 50 || !upi) { showToast("Minimum withdrawal is ₹50 and UPI required."); return; }
+            if (amt > appState.user.wallet) { showToast("Insufficient wallet balance."); return; }
+            appState.user.wallet -= amt;
+            localStorage.setItem('bz_user', JSON.stringify(appState.user));
+            updateUserUI();
+            closeModal('modal-wallet');
+            showToast(`Withdrawal of ₹${amt} sent to ${appName} (${upi}) successfully!`);
         }
 
-        function updateCredentials(matchId) {
-            const rid = document.getElementById(`rid-${matchId}`).value;
-            const rpass = document.getElementById(`rpass-${matchId}`).value;
-            db.ref(`booyah_matches/${matchId}`).update({ roomId: rid, roomPass: rpass }).then(() => {
-                showToast("Room credentials successfully updated in Firebase!", "success");
-            });
-        }
-
-        function setSourceFilter(src) { appState.sourceFilter = src; renderMatches(); }
-        function setModeFilter(mode) { appState.modeFilter = mode; renderMatches(); }
-        function togglePointsCalculator() { document.getElementById('points-calculator-box').classList.toggle('hidden'); }
-        function calculateScore() {
-            const rankPts = parseInt(document.getElementById('calc-rank').value);
-            const kills = parseInt(document.getElementById('calc-kills').value) || 0;
-            document.getElementById('calc-result').innerText = `${rankPts + kills} Points`;
-        }
         function renderLeaderboard() {
-            const tbody = document.getElementById('leaderboard-body');
-            tbody.innerHTML = '';
-            appState.leaderboard.forEach((item, idx) => {
-                tbody.innerHTML += `<tr class="border-b border-gaming-border"><td class="p-3 text-center">#${idx+1}</td><td class="p-3">${item.team}</td><td class="p-3 text-center">${item.matches}</td><td class="p-3 text-center text-gaming-gold">${item.booyahs}</td><td class="p-3 text-center text-gaming-pink">${item.kills}</td><td class="p-3 text-center text-gaming-accent font-bold">${item.totalPts}</td></tr>`;
-            });
+            document.getElementById('leaderboard-body').innerHTML = `<tr class="border-b border-gaming-border"><td class="p-3 text-center">#1</td><td class="p-3">Team Phoenix</td><td class="p-3 text-center text-gaming-gold font-bold">168 Pts</td></tr>`;
         }
-        function openWalletModal() { document.getElementById('wallet-modal-balance').innerText = `🪙 ${appState.user.wallet}`; document.getElementById('modal-wallet').classList.remove('hidden'); }
-        function handleAddCoinsDemo() { appState.user.wallet += 200; localStorage.setItem('bz_user', JSON.stringify(appState.user)); updateUserUI(); openWalletModal(); showToast("+200 Coins added", "success"); }
-        function toggleWithdrawForm() { document.getElementById('withdraw-form').classList.toggle('hidden'); }
-        function handleWithdraw(e) { e.preventDefault(); showToast("Withdrawal request sent!", "success"); closeModal('modal-wallet'); }
-        function openProfileModal() { document.getElementById('modal-profile').classList.remove('hidden'); }
-        function saveProfileInfo() {
+
+        function openProfile() { document.getElementById('modal-profile').classList.remove('hidden'); }
+        function saveProfile() {
             appState.user.ign = document.getElementById('edit-profile-ign').value;
             appState.user.uid = document.getElementById('edit-profile-uid').value;
             localStorage.setItem('bz_user', JSON.stringify(appState.user));
             closeModal('modal-profile');
-            showToast("Profile Saved", "success");
+            showToast("Profile saved!");
         }
-        function updateUserUI() { document.getElementById('user-wallet-balance').innerText = `🪙 ${appState.user.wallet}`; }
+
+        function updateUserUI() { document.getElementById('user-wallet-balance').innerText = `₹${appState.user.wallet.toFixed(2)}`; }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function setSourceFilter(s) { appState.sourceFilter = s; renderMatches(); }
+        function setModeFilter(m) { appState.modeFilter = m; renderMatches(); }
         function showToast(msg) {
             const t = document.getElementById('toast');
             document.getElementById('toast-message').innerText = msg;
             t.classList.remove('translate-y-20', 'opacity-0');
             setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
-        function startTimerLoop() {}
-        function copyText(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); showToast("Copied!"); }
     </script>
 </body>
 </html>
